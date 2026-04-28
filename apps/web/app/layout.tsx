@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import BottomNav from "@/components/BottomNav";
 
 export const metadata: Metadata = {
-  title: "Urbano Holambra",
+  title: "Urbano",
   description: "Seu guia completo para Holambra",
 };
 
@@ -18,7 +19,10 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <div className="w-full max-w-md h-full relative flex flex-col bg-slate-50 dark:bg-slate-900 shadow-2xl overflow-hidden">
-          {children}
+          <main className="flex-1 overflow-y-auto pb-16">
+            {children}
+          </main>
+          <BottomNav />
         </div>
       </body>
     </html>
