@@ -1,12 +1,108 @@
 import { NextResponse } from 'next/server';
 import { db } from '@urb/shared';
 import { getProviderKey } from '@/lib/keys';
+import { GoogleGenAI } from '@google/genai';
 
 const OVERPASS_SERVERS = [
   'https://overpass-api.de/api/interpreter',
   'https://overpass.kumi.systems/api/interpreter',
   'https://maps.mail.ru/osm/tools/overpass/api/interpreter'
 ];
+
+// ==================== CONFIGURAÇÃO DOS MODELOS DE IA ====================
+type AIModel = {
+  name: string;
+  displayName: string;
+  purpose: 'search' | 'enrich' | 'fast' | 'deep';
+  capabilities: string[];
+};
+
+const AI_MODELS: AIModel[] = [
+  { name: 'gemini-2.5-flash', displayName: 'Gemini 2.5 Flash', purpose: 'fast', capabilities: ['search', 'categorize'] },
+  { name: 'gemma-3-1b', displayName: 'Gemma 3 1B', purpose: 'fast', capabilities: ['quick_search'] },
+  { name: 'gemma-3-4b', displayName: 'Gemma 3 4B', purpose: 'fast', capabilities: ['search', 'categorize'] },
+  { name: 'gemma-3-12b', displayName: 'Gemma 3 12B', purpose: 'search', capabilities: ['search', 'enrich', 'categorize'] },
+  { name: 'gemma-3-27b', displayName: 'Gemma 3 27B', purpose: 'deep', capabilities: ['search', 'enrich', 'deep_analysis'] },
+  { name: 'gemma-3-2b', displayName: 'Gemma 3 2B', purpose: 'fast', capabilities: ['quick_search'] },
+  { name: 'gemma-4-26b', displayName: 'Gemma 4 26B', purpose: 'deep', capabilities: ['search', 'enrich', 'deep_analysis', 'multilingual'] },
+  { name: 'gemma-4-31b', displayName: 'Gemma 4 31B', purpose: 'deep', capabilities: ['search', 'enrich', 'deep_analysis', 'multilingual', 'advanced_reasoning'] },
+  { name: 'gemini-2.5-pro', displayName: 'Gemini 2.5 Pro', purpose: 'search', capabilities: ['search', 'enrich', 'categorize'] },
+  { name: 'gemini-3.1-flash-lite', displayName: 'Gemini 3.1 Flash Lite', purpose: 'fast', capabilities: ['quick_search', 'categorize'] },
+  { name: 'gemini-2', displayName: 'Gemini 2', purpose: 'search', capabilities: ['search', 'enrich', 'categorize'] },
+  { name: 'gemini-2.5', displayName: 'Gemini 2.5', purpose: 'search', capabilities: ['search', 'enrich', 'categorize', 'multilingual'] },
+];
+
+// ==================== BUSCA COM IA ====================
+async function searchWithAI(city: string, category?: string): Promise<any[]> {
+  const apiKey = await getProviderKey('GEMINI');
+  if (!apiKey) {
+    console.warn('[AI Search] Chave GEMINI não encontrada');
+    return [];
+  }
+
+  const aiClient = new GoogleGenAI({ apiKey });
+  const results: any[] = [];
+
+  // Usa modelos diferentes baseado na complexidade da busca
+  const searchModels = category 
+    ? ['gemma-3-12b', 'gemini-2.5-flash', 'gemma-4-26b']  // Categoria específica
+    : ['gemma-4-31b', 'gemma-3-27b', 'gemini-2.5-pro'];      // Busca ampla
+
+  for (const modelName of searchModels) {
+    try {
+      console.log(`[AI Search] Tentando com ${modelName}...`);
+      
+      const prompt = category 
+        ? `Liste 10 estabelecimentos da categoria "${category}" em ${city}, SP. 
+           Para cada um, forneça: nome, endereço completo (rua, número, bairro), telefone se souber.
+           Retorne APENAS um array JSON válido no formato:
+           [{"name": "Nome", "address": "Rua X, 123 - Bairro", "phone": "(19) 9999-9999", "category": "${category}"}]`
+        : `Liste 15 estabelecimentos variados e populares em ${city}, SP (restaurantes, cafés, lojas, atrações).
+           Para cada um, forneça: nome, endereço completo, categoria.
+           Retorne APENAS um array JSON válido.`;
+
+      const result = await aiClient.models.generateContent({
+        model: modelName,
+        contents: prompt,
+        config: { 
+          responseMimeType: 'application/json',
+          temperature: 0.7,
+          maxOutputTokens: 2048,
+        }
+      });
+
+      if (result.text) {
+        const places = JSON.parse(result.text);
+        if (Array.isArray(places) && places.length > 0) {
+          const mappedPlaces = places.map((p: any, i: number) => ({
+            osm_id: `ai-${modelName}-${Date.now()}-${i}`,
+            name: p.name || `Local ${i + 1}`,
+            address: p.address || `${city}, SP`,
+            phone: p.phone || null,
+            website: p.website || null,
+            instagram: p.instagram || null,
+            category: p.category || category || 'Estabelecimento',
+            type: p.category || category || 'Estabelecimento',
+            lat: null,
+            lon: null,
+            opening_hours: null,
+            hasFullAddress: !!(p.address && p.address.includes(',')),
+            source: modelName,
+          }));
+          
+          console.log(`[AI Search] ${modelName} retornou ${mappedPlaces.length} lugares`);
+          results.push(...mappedPlaces);
+          break; // Se deu certo, não precisa tentar outros modelos
+        }
+      }
+    } catch (error: any) {
+      console.warn(`[AI Search] ${modelName} falhou:`, error.message);
+      continue;
+    }
+  }
+
+  return results;
+}
 
 // ==================== OPENSTREETMAP ====================
 async function searchOSM(city: string, category?: string): Promise<any[]> {
@@ -105,10 +201,11 @@ async function searchOSM(city: string, category?: string): Promise<any[]> {
             lon: el.lon,
             opening_hours: el.tags.opening_hours || null,
             hasFullAddress: !!(street && number),
+            source: 'osm',
           };
         });
 
-      console.log(`[OSM] ${places.length} lugares encontrados (${places.filter(p => p.hasFullAddress).length} com endereço completo)`);
+      console.log(`[OSM] ${places.length} lugares encontrados`);
       return places;
       
     } catch (error: any) {
@@ -121,101 +218,16 @@ async function searchOSM(city: string, category?: string): Promise<any[]> {
   return [];
 }
 
-// ==================== IBGE AGREGADOS ====================
-async function enrichWithIBGE(place: any): Promise<any> {
-  try {
-    const { getApiRouteUrl } = await import('@/lib/routes');
-    const ibgeBaseUrl = await getApiRouteUrl('IBGE_AGREGADOS', 'https://servicodados.ibge.gov.br/api/v3/agregados');
-    
-    // Se o lugar já tem CEP, busca dados por região
-    if (place.cep) {
-      const cepLimpo = place.cep.replace(/\D/g, '');
-      
-      // 1. Buscar informações do CEP
-      const cepUrl = `https://viacep.com.br/ws/${cepLimpo}/json/`;
-      const cepRes = await fetch(cepUrl);
-      const cepData = await cepRes.json();
-      
-      if (!cepData.erro) {
-        console.log(`[IBGE/ViaCEP] Dados do CEP ${cepLimpo}:`, cepData.localidade);
-        place.address = place.address || `${cepData.logradouro}, ${cepData.bairro} - ${cepData.localidade}/${cepData.uf}`;
-        place.city = place.city || cepData.localidade;
-        place.state = place.state || cepData.uf;
-        place.district = cepData.bairro;
-        place.cep = cepLimpo;
-      }
-    }
-    
-    // 2. Buscar dados do município no IBGE (se tiver cidade)
-    if (place.city) {
-      const cityName = place.city.split(',')[0].trim();
-      
-      // Busca o código do município
-      const municipiosUrl = `https://servicodados.ibge.gov.br/api/v1/localidades/municipios?nome=${encodeURIComponent(cityName)}`;
-      const munRes = await fetch(municipiosUrl);
-      const munData = await munRes.json();
-      
-      if (munData && munData.length > 0) {
-        const municipio = munData[0];
-        console.log(`[IBGE] Município encontrado: ${municipio.nome} (${municipio.id})`);
-        
-        place.city = place.city || municipio.nome;
-        place.state = place.state || municipio.microrregiao?.mesorregiao?.UF?.sigla;
-        
-        // 3. Buscar dados estatísticos do município (CNAE, empresas, etc.)
-        // Exemplo: Cadastro Central de Empresas (CEMPRE)
-        const cemmpreUrl = `https://servicodados.ibge.gov.br/api/v2/cnae/classes?municipio=${municipio.id}`;
-        const cnaeRes = await fetch(cemmpreUrl);
-        const cnaeData = await cnaeRes.json();
-        
-        // Mapeamento de CNAE para categorias do sistema
-        const cnaeCategoryMap: Record<string, string> = {
-          '5611-2': 'restaurant',
-          '5611-2/01': 'restaurant',
-          '5611-2/03': 'restaurant',
-          '5612-1': 'cafe',
-          '5510-8': 'hotel',
-          '5510-8/01': 'hotel',
-          '5510-8/02': 'hotel',
-        };
-        
-        // Se a categoria do lugar bater com algum CNAE, enriquece
-        if (cnaeData && cnaeData.length > 0) {
-          const relevantCnae = cnaeData.find((c: any) => {
-            const classe = c.classe || c.id;
-            return Object.keys(cnaeCategoryMap).some(code => classe?.includes(code));
-          });
-          
-          if (relevantCnae) {
-            place.category = cnaeCategoryMap[relevantCnae.id] || place.category;
-            place.type = cnaeCategoryMap[relevantCnae.id] || place.type;
-            console.log(`[IBGE] Categoria mapeada via CNAE: ${place.category}`);
-          }
-        }
-      }
-    }
-    
-    console.log(`[IBGE] Enriquecimento concluído para: ${place.name}`);
-  } catch (error: any) {
-    console.error(`[IBGE] Erro ao enriquecer:`, error.message);
-  }
-  
-  return place;
-}
-
 // ==================== GEOAPIFY ====================
 async function searchGeoapify(city: string, category?: string): Promise<any[]> {
   const apiKey = await getProviderKey('GEOAPIFY_API');
   if (!apiKey) {
-    console.warn('[Geoapify] Chave GEOAPIFY_API não encontrada no banco');
+    console.warn('[Geoapify] Chave GEOAPIFY_API não encontrada');
     return [];
   }
 
   try {
-    // 1. Geocodificar a cidade
     const geoUrl = `https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(city)}&format=json&apiKey=${apiKey}`;
-    console.log(`[Geoapify] Geocodificando: ${city}`);
-    
     const geoRes = await fetch(geoUrl);
     const geoData = await geoRes.json();
     
@@ -225,9 +237,7 @@ async function searchGeoapify(city: string, category?: string): Promise<any[]> {
     }
 
     const { lat, lon } = geoData.results[0];
-    console.log(`[Geoapify] Coordenadas: ${lat}, ${lon}`);
 
-    // 2. Mapear categorias
     const categoryMap: Record<string, string> = {
       restaurant: 'catering.restaurant',
       cafe: 'catering.cafe',
@@ -242,21 +252,17 @@ async function searchGeoapify(city: string, category?: string): Promise<any[]> {
     };
 
     let categories = 'catering,accommodation,tourism,entertainment,commercial';
-    
     if (category && category !== 'all') {
-      const apiCategory = categoryMap[category] || category;
-      categories = apiCategory;
+      categories = categoryMap[category] || category;
     }
 
-    // 3. Buscar locais
     const filter = `circle:${lon},${lat},5000`;
     const placesUrl = `https://api.geoapify.com/v2/places?categories=${categories}&filter=${filter}&limit=50&apiKey=${apiKey}`;
-    console.log(`[Geoapify] Buscando: ${placesUrl}`);
     
     const res = await fetch(placesUrl);
     const data = await res.json();
 
-    console.log(`[Geoapify] ${data.features?.length || 0} locais retornados`);
+    console.log(`[Geoapify] ${data.features?.length || 0} locais`);
 
     return (data.features || []).map((p: any) => {
       const props = p.properties;
@@ -273,111 +279,61 @@ async function searchGeoapify(city: string, category?: string): Promise<any[]> {
         lon: props.lon,
         opening_hours: null,
         hasFullAddress: !!(props.street && props.housenumber),
-        placeId: props.place_id, // ID para usar no place-details
+        placeId: props.place_id,
+        source: 'geoapify',
       };
     });
 
   } catch (error: any) {
-    console.error('[Geoapify] Erro na busca:', error.message);
+    console.error('[Geoapify] Erro:', error.message);
     return [];
   }
 }
 
-// ==================== ENRIQUECER COM GEOAPIFY DETAILS ====================
-async function enrichWithGeoapifyDetails(place: any): Promise<any> {
-  const apiKey = await getProviderKey('GEOAPIFY_API');
-  if (!apiKey || !place.placeId) return place;
+// ==================== ENRIQUECIMENTO COM IA ====================
+async function enrichWithAI(place: any, task: 'description' | 'details' | 'all' = 'all'): Promise<any> {
+  const apiKey = await getProviderKey('GEMINI');
+  if (!apiKey) return place;
+
+  const aiClient = new GoogleGenAI({ apiKey });
 
   try {
-    const detailsUrl = `https://api.geoapify.com/v2/place-details?id=${place.placeId}&apiKey=${apiKey}`;
-    console.log(`[Geoapify Details] Buscando detalhes para: ${place.name}`);
-    
-    const res = await fetch(detailsUrl);
-    const data = await res.json();
+    if (task === 'description' || task === 'all') {
+      // Modelos leves para descrições
+      const prompt = `Gere uma descrição atraente em português (Brasil) para: ${place.name} (${place.category || 'Estabelecimento'}) em ${place.address || 'Holambra, SP'}. Máximo 300 caracteres.`;
+      
+      const result = await aiClient.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: prompt,
+        config: { maxOutputTokens: 500 }
+      });
+      
+      if (result.text) {
+        place.description = result.text;
+      }
+    }
 
-    if (data.features && data.features.length > 0) {
-      const props = data.features[0].properties;
-      console.log(`[Geoapify Details] Dados recebidos para: ${place.name}`);
+    if (task === 'details' || task === 'all') {
+      // Modelos mais potentes para detalhes
+      const prompt = `Para o estabelecimento "${place.name}" em ${place.address || 'Holambra, SP'}, 
+        sugira: 3-5 categorias relevantes, horário de funcionamento típico, e faixa de preço ($ a $$$$).
+        Retorne JSON: {"categories": [...], "hours": "...", "priceLevel": "$$"}`;
       
-      // Preenche campos detalhados
-      place.name = props.name || place.name;
-      place.address = props.formatted || props.address_line1 || place.address;
-      place.phone = props.contact?.phone || place.phone;
-      place.website = props.contact?.website || place.website;
-      place.email = props.contact?.email || null;
-      place.opening_hours = props.opening_hours || null;
+      const result = await aiClient.models.generateContent({
+        model: 'gemma-3-12b',
+        contents: prompt,
+        config: { responseMimeType: 'application/json' }
+      });
       
-      // Categorias detalhadas
-      if (props.categories && props.categories.length > 0) {
-        const mainCategory = props.categories[0];
-        place.category = mainCategory;
-        place.type = mainCategory;
-        place.types = props.categories;
+      if (result.text) {
+        const details = JSON.parse(result.text);
+        if (details.categories) place.types = details.categories;
+        if (details.hours) place.opening_hours = details.hours;
+        if (details.priceLevel) place.priceLevel = details.priceLevel;
       }
-      
-      // Características
-      if (props.features) {
-        place.features = props.features;
-      }
-      
-      // Redes sociais
-      if (props.contact) {
-        place.facebook = props.contact.facebook || null;
-        place.instagram = props.contact.instagram || null;
-        place.twitter = props.contact.twitter || null;
-      }
-      
-      place.hasFullAddress = !!(props.street && props.housenumber);
-      console.log(`[Geoapify Details] ${place.name} enriquecido com sucesso`);
     }
   } catch (error: any) {
-    console.error(`[Geoapify Details] Erro:`, error.message);
-  }
-
-  return place;
-}
-
-// ==================== GOOGLE ENRICHMENT ====================
-async function enrichWithGoogle(place: any, googleApiKey: string) {
-  if (!googleApiKey) return place;
-
-  try {
-    const searchUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(place.name + ' ' + place.address)}&key=${googleApiKey}`;
-    const searchRes = await fetch(searchUrl);
-    const searchData = await searchRes.json();
-
-    if (searchData.results && searchData.results.length > 0) {
-      const googlePlace = searchData.results[0];
-      
-      const detailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${googlePlace.place_id}&key=${googleApiKey}&language=pt-BR`;
-      const detailsRes = await fetch(detailsUrl);
-      const detailsData = await detailsRes.json();
-
-      if (detailsData.result) {
-        const d = detailsData.result;
-        place.googlePlaceId = d.place_id;
-        place.rating = d.rating || 0;
-        place.userRatingsTotal = d.user_ratings_total || 0;
-        place.priceLevel = d.price_level;
-        place.phone = d.formatted_phone_number || place.phone;
-        place.website = d.website || place.website;
-        place.address = d.formatted_address || place.address;
-        place.photos = d.photos?.slice(0, 5).map((p: any) => ({
-          url: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${p.photo_reference}&key=${googleApiKey}`,
-          googleRef: p.photo_reference
-        })) || [];
-        place.opening_hours = d.opening_hours?.weekday_text || [];
-        place.reviews = d.reviews?.slice(0, 5).map((r: any) => ({
-          authorName: r.author_name,
-          rating: r.rating,
-          text: r.text,
-          relativePublishTime: r.relative_time_description
-        })) || [];
-        place.description = d.editorial_summary?.overview || null;
-      }
-    }
-  } catch (error) {
-    console.error('Erro no enriquecimento Google:', error);
+    console.error(`[AI Enrich] Erro:`, error.message);
   }
 
   return place;
@@ -392,45 +348,35 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Cidade é obrigatória' }, { status: 400 });
     }
 
-    console.log(`\n🔍 Buscando locais em "${city}" com categoria "${category || 'todas'}"`);
+    console.log(`\n🔍 Buscando em "${city}" - Categoria: "${category || 'todas'}"`);
     
-    // 1. Tenta OSM primeiro
-    let places = await searchOSM(city, category || undefined);
+    let places: any[] = [];
+    
+    // 1. Tenta OSM
+    console.log('📡 Tentando OpenStreetMap...');
+    places = await searchOSM(city, category || undefined);
     
     // 2. Se OSM falhar, tenta Geoapify
     if (places.length === 0) {
-      console.log('⚠️ OSM não retornou resultados. Tentando Geoapify...');
+      console.log('📡 Tentando Geoapify...');
       places = await searchGeoapify(city, category || undefined);
-      
-      // 3. Enriquece com detalhes do Geoapify (para lugares do Geoapify)
-      if (places.length > 0) {
-        console.log('✨ Enriquecendo com detalhes do Geoapify...');
-        places = await Promise.all(places.map(p => enrichWithGeoapifyDetails(p)));
-      }
+    }
+    
+    // 3. Se ainda não encontrou, usa IA
+    if (places.length === 0) {
+      console.log('🤖 Buscando com IA...');
+      places = await searchWithAI(city, category || undefined);
+    }
+    
+    // 4. Enriquece com IA (descrições e categorias)
+    if (places.length > 0) {
+      console.log('✨ Enriquecendo com IA...');
+      places = await Promise.all(places.map(p => enrichWithAI(p, 'all')));
     }
     
     if (places.length === 0) {
-      return NextResponse.json({ places: [], message: 'Nenhum local encontrado' });
+      return NextResponse.json({ places: [], message: 'Nenhum local encontrado em nenhuma fonte' });
     }
-
-    // Busca chave do Google (opcional)
-    let googleApiKey: string | undefined;
-    try {
-      const key = await getProviderKey('GOOGLE_MAPS_API_KEY');
-      if (key) googleApiKey = key;
-    } catch (e) {
-      console.warn('Chave Google Maps não encontrada');
-    }
-
-    // Enriquece com Google (se chave existir)
-    if (googleApiKey) {
-      console.log('✨ Enriqueceu com Google Places...');
-      places = await Promise.all(places.map(p => enrichWithGoogle(p, googleApiKey)));
-    }
-
-    // Enriquece com dados do IBGE (via CEP e CNAE)
-console.log('📊 Enriquecendo com dados do IBGE...');
-places = await Promise.all(places.map(p => enrichWithIBGE(p)));
 
     // Verifica duplicatas
     const osmIds = places.map(p => p.osm_id);
@@ -446,10 +392,10 @@ places = await Promise.all(places.map(p => enrichWithIBGE(p)));
       alreadyImported: importedIds.has(p.osm_id),
     }));
 
-    console.log(`✅ Retornando ${finalPlaces.length} lugares processados\n`);
+    console.log(`✅ ${finalPlaces.length} lugares encontrados (fonte: ${finalPlaces[0]?.source || 'desconhecida'})\n`);
     return NextResponse.json({ places: finalPlaces });
   } catch (error: any) {
-    console.error('❌ Erro no mapeamento:', error);
+    console.error('❌ Erro:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
