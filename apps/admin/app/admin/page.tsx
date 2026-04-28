@@ -231,17 +231,21 @@ export default function AdminDashboardPage() {
               <Store size={16} className="text-indigo-600" /> Locais na base
             </h3>
             <div className="flex gap-2">
-              <span onClick={async () => {
-                showToast("🔍 Analisando endereços...");
-                try {
-                  const res = await fetch('/api/admin/fix-locations');
-                  const data = await res.json();
-                  showToast(data.message);
-                  fetchData();
-                } catch(e) {
-                  showToast("Erro ao validar cidades");
-                }
-              }} className="text-xs text-blue-500 font-medium cursor-pointer">Validar Cidades</span>
+             <span onClick={async () => {
+  showToast("🔍 Analisando cidades da base...");
+  try {
+    const res = await fetch('/api/admin/validate-cities', { method: 'POST' });
+    const data = await res.json();
+    if (data.success) {
+      showToast(`✅ ${data.message}`);
+      fetchData();
+    } else {
+      showToast(`❌ ${data.error || 'Erro ao validar'}`);
+    }
+  } catch(e) {
+    showToast("Erro ao validar cidades");
+  }
+}} className="text-xs text-blue-500 font-medium cursor-pointer">Validar Cidades</span>
               <span onClick={() => fetchData()} className="text-xs text-indigo-600 font-medium cursor-pointer">
                 Atualizar
               </span>
