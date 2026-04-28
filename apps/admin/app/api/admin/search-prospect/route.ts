@@ -34,20 +34,31 @@ async function getGroqClient(): Promise<Groq | null> {
 async function getOSMImage(place: any): Promise<string | null> {
   if (!place.lat || !place.lon) return null;
   try {
-    const query = `[out:json]; node(${place.lat - 0.001},${place.lon - 0.001},${place.lat + 0.001},${place.lon + 0.001}); out body;`;
+    const query = `[out:json]; node(around:50,${place.lat},${place.lon})[image]; out body 1;`; // Busca otimizada
     const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
-    const res = await fetch(url);
+    const res = await fetch(url, {
+      headers: { 'User-Agent': 'Urb-Admin/1.0 (luiscastropess-del)' }
+    });
+    if (!res.ok) {
+      console.warn(`[OSM Image] Status ${res.status} para ${place.name}`);
+      return null;
+    }
+    const contentType = res.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) {
+      console.warn(`[OSM Image] Resposta não é JSON para ${place.name}`);
+      return null;
+    }
     const data = await res.json();
     if (data.elements && data.elements.length > 0) {
       const element = data.elements[0];
-      const imageTag = element.tags?.image || element.tags?.image_1 || null;
+      const imageTag = element.tags?.image;
       if (imageTag) {
         console.log(`[OSM Image] Imagem encontrada para ${place.name}: ${imageTag}`);
         return imageTag;
       }
     }
   } catch (error: any) {
-    console.warn(`[OSM Image] Erro:`, error.message);
+    console.warn(`[OSM Image] Erro para ${place.name}:`, error.message);
   }
   return null;
 }
@@ -55,44 +66,58 @@ async function getOSMImage(place: any): Promise<string | null> {
 async function getWikimediaImages(place: any): Promise<string[]> {
   const images: string[] = [];
   try {
+    const headers = {
+      'User-Agent': 'UrbAdmin/1.0 (https://github.com/luiscastropess-del/Urb; luiscastropess@email.com)'
+    };
+
+    // Busca por coordenadas
     if (place.lat && place.lon) {
       const radius = 100;
       const url = `https://commons.wikimedia.org/w/api.php?action=query&list=geosearch&gsradius=${radius}&gscoord=${place.lat}|${place.lon}&gslimit=5&format=json&origin=*`;
-      const res = await fetch(url);
-      const data = await res.json();
-      if (data.query?.geosearch) {
-        for (const item of data.query.geosearch) {
-          const pageId = item.pageid;
-          const imageUrl = `https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=url&pageids=${pageId}&format=json&origin=*`;
-          const imgRes = await fetch(imageUrl);
-          const imgData = await imgRes.json();
-          const page = imgData.query?.pages?.[pageId];
-          if (page?.imageinfo?.[0]?.url) {
-            images.push(page.imageinfo[0].url);
+      const res = await fetch(url, { headers });
+      if (res.ok) {
+        const data = await res.json().catch(() => null);
+        if (data?.query?.geosearch) {
+          for (const item of data.query.geosearch) {
+            const imageUrl = `https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=url&pageids=${item.pageid}&format=json&origin=*`;
+            const imgRes = await fetch(imageUrl, { headers });
+            if (imgRes.ok) {
+              const imgData = await imgRes.json().catch(() => null);
+              const page = imgData?.query?.pages?.[item.pageid];
+              if (page?.imageinfo?.[0]?.url) {
+                images.push(page.imageinfo[0].url);
+              }
+            }
           }
         }
       }
     }
+
+    // Busca por nome (fallback)
     if (images.length < 3 && place.name) {
       const searchUrl = `https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(place.name)}&srnamespace=6&srlimit=5&format=json&origin=*`;
-      const searchRes = await fetch(searchUrl);
-      const searchData = await searchRes.json();
-      if (searchData.query?.search) {
-        for (const item of searchData.query.search) {
-          const pageId = item.pageid;
-          const imageUrl = `https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=url&pageids=${pageId}&format=json&origin=*`;
-          const imgRes = await fetch(imageUrl);
-          const imgData = await imgRes.json();
-          const page = imgData.query?.pages?.[pageId];
-          if (page?.imageinfo?.[0]?.url) {
-            images.push(page.imageinfo[0].url);
+      const searchRes = await fetch(searchUrl, { headers });
+      if (searchRes.ok) {
+        const searchData = await searchRes.json().catch(() => null);
+        if (searchData?.query?.search) {
+          for (const item of searchData.query.search) {
+            const imageUrl = `https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=url&pageids=${item.pageid}&format=json&origin=*`;
+            const imgRes = await fetch(imageUrl, { headers });
+            if (imgRes.ok) {
+              const imgData = await imgRes.json().catch(() => null);
+              const page = imgData?.query?.pages?.[item.pageid];
+              if (page?.imageinfo?.[0]?.url) {
+                images.push(page.imageinfo[0].url);
+              }
+            }
           }
         }
       }
     }
+
     console.log(`[Wikimedia] ${images.length} imagens para ${place.name}`);
   } catch (error: any) {
-    console.warn(`[Wikimedia] Erro:`, error.message);
+    console.warn(`[Wikimedia] Erro para ${place.name}:`, error.message);
   }
   return images;
 }
