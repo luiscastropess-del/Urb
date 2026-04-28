@@ -7,8 +7,8 @@ const config: Config = {
     '../../packages/ui/src/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
-    extend: {}
+    extend: {},
   },
-  plugins: []
+  plugins: [],
 }
 export default config
