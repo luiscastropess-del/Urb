@@ -3,9 +3,6 @@ import { db } from '@urb/shared';
 import { getProviderKey } from '@/lib/keys';
 import Groq from 'groq-sdk';
 
-const MAX_PLACES_PER_SEARCH = 40;
-const BATCH_SIZE = 10;
-
 const OVERPASS_SERVERS = [
   'https://overpass-api.de/api/interpreter',
   'https://overpass.kumi.systems/api/interpreter',
@@ -13,24 +10,17 @@ const OVERPASS_SERVERS = [
 ];
 
 // ==================== LIMITES DE PROSPECÇÃO ====================
+const MAX_PLACES_PER_SEARCH = 40;
 const BATCH_SIZE = 10; // Para enriquecimento em lotes
 
 // ==================== CONFIGURAÇÃO GROQ ====================
 const GROQ_MODELS = {
-  // Modelo Principal - Alta qualidade para descrições e enriquecimento
   primary: 'llama-3.3-70b-versatile',
-  
-  // Modelo de Busca/Raciocínio - Decide onde buscar dados faltantes
   reasoning: 'meta-llama/llama-4-scout-17b-16e-instruct',
-  
-  // Modelo Rápido - Validações e tarefas simples
   fast: 'llama-3.1-8b-instant',
-  
-  // Modelo Multimodal - Para análise de imagens (se necessário)
   vision: 'llama-3.2-90b-vision-preview',
 };
 
-// Inicializa o cliente Groq
 async function getGroqClient(): Promise<Groq | null> {
   const apiKey = await getProviderKey('GROQ_API');
   if (!apiKey) {
@@ -40,7 +30,110 @@ async function getGroqClient(): Promise<Groq | null> {
   return new Groq({ apiKey });
 }
 
-// ==================== BUSCA COM GROQ (IA Inteligente) ====================
+// ==================== COLETA DE IMAGENS ====================
+async function getOSMImage(place: any): Promise<string | null> {
+  if (!place.lat || !place.lon) return null;
+  try {
+    const query = `[out:json]; node(${place.lat - 0.001},${place.lon - 0.001},${place.lat + 0.001},${place.lon + 0.001}); out body;`;
+    const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.elements && data.elements.length > 0) {
+      const element = data.elements[0];
+      const imageTag = element.tags?.image || element.tags?.image_1 || null;
+      if (imageTag) {
+        console.log(`[OSM Image] Imagem encontrada para ${place.name}: ${imageTag}`);
+        return imageTag;
+      }
+    }
+  } catch (error: any) {
+    console.warn(`[OSM Image] Erro:`, error.message);
+  }
+  return null;
+}
+
+async function getWikimediaImages(place: any): Promise<string[]> {
+  const images: string[] = [];
+  try {
+    if (place.lat && place.lon) {
+      const radius = 100;
+      const url = `https://commons.wikimedia.org/w/api.php?action=query&list=geosearch&gsradius=${radius}&gscoord=${place.lat}|${place.lon}&gslimit=5&format=json&origin=*`;
+      const res = await fetch(url);
+      const data = await res.json();
+      if (data.query?.geosearch) {
+        for (const item of data.query.geosearch) {
+          const pageId = item.pageid;
+          const imageUrl = `https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=url&pageids=${pageId}&format=json&origin=*`;
+          const imgRes = await fetch(imageUrl);
+          const imgData = await imgRes.json();
+          const page = imgData.query?.pages?.[pageId];
+          if (page?.imageinfo?.[0]?.url) {
+            images.push(page.imageinfo[0].url);
+          }
+        }
+      }
+    }
+    if (images.length < 3 && place.name) {
+      const searchUrl = `https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(place.name)}&srnamespace=6&srlimit=5&format=json&origin=*`;
+      const searchRes = await fetch(searchUrl);
+      const searchData = await searchRes.json();
+      if (searchData.query?.search) {
+        for (const item of searchData.query.search) {
+          const pageId = item.pageid;
+          const imageUrl = `https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=url&pageids=${pageId}&format=json&origin=*`;
+          const imgRes = await fetch(imageUrl);
+          const imgData = await imgRes.json();
+          const page = imgData.query?.pages?.[pageId];
+          if (page?.imageinfo?.[0]?.url) {
+            images.push(page.imageinfo[0].url);
+          }
+        }
+      }
+    }
+    console.log(`[Wikimedia] ${images.length} imagens para ${place.name}`);
+  } catch (error: any) {
+    console.warn(`[Wikimedia] Erro:`, error.message);
+  }
+  return images;
+}
+
+async function getGeoapifyImages(place: any): Promise<string[]> {
+  const apiKey = await getProviderKey('GEOAPIFY_API');
+  if (!apiKey || !place.placeId) return [];
+  const images: string[] = [];
+  try {
+    const detailsUrl = `https://api.geoapify.com/v2/place-details?id=${place.placeId}&apiKey=${apiKey}`;
+    const res = await fetch(detailsUrl);
+    const data = await res.json();
+    if (data.features && data.features.length > 0) {
+      const props = data.features[0].properties;
+      if (props.photo_urls && Array.isArray(props.photo_urls)) {
+        images.push(...props.photo_urls);
+      }
+      if (props.logo_url) images.push(props.logo_url);
+      if (props.icon_url) images.push(props.icon_url);
+    }
+    console.log(`[Geoapify Images] ${images.length} imagens para ${place.name}`);
+  } catch (error: any) {
+    console.warn(`[Geoapify Images] Erro:`, error.message);
+  }
+  return images;
+}
+
+async function collectAllImages(place: any): Promise<string[]> {
+  const allImages: string[] = [];
+  const [osmImage, wikimediaImages, geoapifyImages] = await Promise.all([
+    getOSMImage(place).catch(() => null),
+    getWikimediaImages(place).catch(() => []),
+    getGeoapifyImages(place).catch(() => []),
+  ]);
+  if (osmImage) allImages.push(osmImage);
+  allImages.push(...wikimediaImages);
+  allImages.push(...geoapifyImages);
+  return [...new Set(allImages)];
+}
+
+// ==================== BUSCA COM GROQ AI ====================
 async function searchWithGroqAI(city: string, category?: string): Promise<any[]> {
   const groq = await getGroqClient();
   if (!groq) return [];
@@ -50,7 +143,7 @@ async function searchWithGroqAI(city: string, category?: string): Promise<any[]>
   try {
     const prompt = category && category !== 'all'
       ? `Você é um especialista em dados locais do Brasil. 
-         Liste EXATAMENTE 20 estabelecimentos REAIS da categoria "${category}" em "${city}, SP".
+         Liste EXATAMENTE 15 estabelecimentos REAIS da categoria "${category}" em "${city}, SP".
          
          REGRAS IMPORTANTES:
          - Apenas estabelecimentos que REALMENTE EXISTEM
@@ -63,9 +156,7 @@ async function searchWithGroqAI(city: string, category?: string): Promise<any[]>
          - phone: telefone real (se souber)
          - category: "${category}"
          
-         Retorne APENAS um array JSON válido, sem texto adicional, no formato:
-         [{"name": "...", "address": "...", "phone": "...", "category": "..."}]`
-      
+         Retorne APENAS um array JSON válido, sem texto adicional.`
       : `Você é um especialista em dados locais do Brasil.
          Liste EXATAMENTE 20 estabelecimentos REAIS e POPULARES em "${city}, SP".
          
@@ -89,21 +180,15 @@ async function searchWithGroqAI(city: string, category?: string): Promise<any[]>
           role: 'system',
           content: 'Você é um assistente especializado em dados geográficos brasileiros. Forneça apenas informações precisas e verificáveis. Retorne sempre JSON válido.'
         },
-        {
-          role: 'user',
-          content: prompt
-        }
+        { role: 'user', content: prompt }
       ],
       model: GROQ_MODELS.reasoning,
-      temperature: 0.3, // Baixa temperatura para respostas mais precisas
+      temperature: 0.3,
       max_tokens: 2048,
       top_p: 0.9,
     });
 
     const responseText = completion.choices[0]?.message?.content || '';
-    console.log(`[Groq AI] Resposta recebida (${responseText.length} caracteres)`);
-
-    // Tenta extrair o JSON da resposta
     const jsonMatch = responseText.match(/\[[\s\S]*\]/);
     if (!jsonMatch) {
       console.warn('[Groq AI] Resposta não contém JSON válido');
@@ -111,7 +196,6 @@ async function searchWithGroqAI(city: string, category?: string): Promise<any[]>
     }
 
     const places = JSON.parse(jsonMatch[0]);
-    
     if (!Array.isArray(places) || places.length === 0) {
       console.warn('[Groq AI] Array vazio ou inválido');
       return [];
@@ -131,11 +215,11 @@ async function searchWithGroqAI(city: string, category?: string): Promise<any[]>
       opening_hours: null,
       hasFullAddress: !!(p.address && p.address.includes(',')),
       source: 'groq-ai',
-      verified: false, // Será verificado depois
+      verified: false,
     }));
 
     console.log(`[Groq AI] ${mappedPlaces.length} lugares encontrados via IA`);
-    return mappedPlaces;
+    return mappedPlaces.slice(0, MAX_PLACES_PER_SEARCH);
 
   } catch (error: any) {
     console.error('[Groq AI] Erro na busca:', error.message);
@@ -151,7 +235,7 @@ async function enrichWithGroq(place: any): Promise<any> {
   console.log(`[Groq Enrich] Processando: ${place.name}`);
 
   try {
-    // Tarefa 1: Gerar descrição atraente
+    // Descrição
     if (!place.description || place.description.length < 50) {
       const descPrompt = `Gere uma descrição comercial atraente e profissional em português (Brasil) para:
       
@@ -181,11 +265,10 @@ async function enrichWithGroq(place: any): Promise<any> {
       const description = descCompletion.choices[0]?.message?.content?.trim();
       if (description && description.length > 20) {
         place.description = description;
-        console.log(`[Groq Enrich] Descrição gerada para ${place.name}`);
       }
     }
 
-    // Tarefa 2: Sugerir categorias e tags
+    // Categorias
     const catPrompt = `Para o estabelecimento "${place.name}" (${place.category || 'Não categorizado'}):
     
     Sugira 3-5 categorias/tags relevantes que descrevam este negócio.
@@ -211,11 +294,21 @@ async function enrichWithGroq(place: any): Promise<any> {
         const categories = JSON.parse(jsonMatch[0]);
         if (Array.isArray(categories) && categories.length > 0) {
           place.types = [...new Set([...(place.types || []), ...categories])];
-          console.log(`[Groq Enrich] Categorias sugeridas: ${categories.join(', ')}`);
         }
       }
     } catch (parseError) {
       console.warn('[Groq Enrich] Erro ao parsear categorias');
+    }
+
+    // Imagens
+    if (!place.photos || place.photos.length === 0) {
+      place.photos = await collectAllImages(place);
+      if (place.photos.length > 0 && !place.coverImage) {
+        place.coverImage = place.photos[0];
+      }
+      if (place.photos.length > 1 && !place.profileImage) {
+        place.profileImage = place.photos[1];
+      }
     }
 
   } catch (error: any) {
@@ -379,12 +472,12 @@ async function searchOSM(city: string, category?: string): Promise<any[]> {
             opening_hours: el.tags.opening_hours || null,
             hasFullAddress: !!(street && number),
             source: 'osm',
-            verified: true, // OSM são dados reais
+            verified: true,
           };
         });
 
       console.log(`[OSM] ${places.length} lugares encontrados`);
-      return places;
+      return places.slice(0, MAX_PLACES_PER_SEARCH);
       
     } catch (error: any) {
       console.error(`[OSM] Erro:`, error.message);
@@ -442,7 +535,7 @@ async function searchGeoapify(city: string, category?: string): Promise<any[]> {
 
     console.log(`[Geoapify] ${data.features?.length || 0} locais`);
 
-    return (data.features || []).map((p: any) => {
+    return (data.features || []).slice(0, MAX_PLACES_PER_SEARCH).map((p: any) => {
       const props = p.properties;
       return {
         osm_id: `geoapify-${props.place_id}`,
@@ -459,7 +552,7 @@ async function searchGeoapify(city: string, category?: string): Promise<any[]> {
         hasFullAddress: !!(props.street && props.housenumber),
         placeId: props.place_id,
         source: 'geoapify',
-        verified: true, // Geoapify são dados verificados
+        verified: true,
       };
     });
 
@@ -483,40 +576,48 @@ export async function POST(req: Request) {
     
     let places: any[] = [];
     
-    // CAMADA 1: OpenStreetMap (dados reais e gratuitos)
+    // CAMADA 1: OpenStreetMap
     console.log('📡 CAMADA 1: OpenStreetMap');
     places = await searchOSM(city, category || undefined);
     
-    // CAMADA 2: Geoapify (dados comerciais verificados)
+    // CAMADA 2: Geoapify
     if (places.length === 0) {
       console.log('📡 CAMADA 2: Geoapify');
       places = await searchGeoapify(city, category || undefined);
     }
     
-    // CAMADA 3: Groq AI (busca inteligente)
+    // CAMADA 3: Groq AI
     if (places.length === 0) {
-      console.log('🤖 CAMADA 3: Groq AI (busca inteligente)');
+      console.log('🤖 CAMADA 3: Groq AI');
       places = await searchWithGroqAI(city, category || undefined);
     }
     
-    // Se encontrou lugares, enriquece com Groq
+    // Enriquece com Groq (descrições, categorias, imagens)
     if (places.length > 0) {
       console.log(`\n✨ ENRIQUECENDO ${places.length} lugares...`);
       console.log('-'.repeat(40));
       
-      // Enriquece cada lugar com descrições e categorias
-      places = await Promise.all(places.map(p => enrichWithGroq(p)));
+      // Lotes
+      for (let i = 0; i < places.length; i += BATCH_SIZE) {
+        const batch = places.slice(i, i + BATCH_SIZE);
+        const enrichedBatch = await Promise.all(batch.map(p => enrichWithGroq(p)));
+        places.splice(i, BATCH_SIZE, ...enrichedBatch);
+        console.log(`[Batch] Enriqueceu ${i + batch.length}/${places.length}`);
+        if (i + BATCH_SIZE < places.length) {
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+      }
       
-      // Verifica autenticidade (apenas para lugares de IA)
+      // Verifica autenticidade (apenas lugares de IA)
       const aiPlaces = places.filter(p => p.source === 'groq-ai');
       if (aiPlaces.length > 0) {
-        console.log('\n🔍 VERIFICANDO autenticidade dos dados...');
+        console.log('\n🔍 VERIFICANDO autenticidade...');
         places = await verifyWithGroq(places);
       }
     }
     
     if (places.length === 0) {
-      console.log('❌ Nenhum local encontrado em nenhuma fonte');
+      console.log('❌ Nenhum local encontrado');
       return NextResponse.json({ 
         places: [], 
         message: 'Nenhum local encontrado. Tente outra cidade ou categoria.' 
@@ -537,7 +638,7 @@ export async function POST(req: Request) {
       alreadyImported: importedIds.has(p.osm_id),
     }));
 
-    // Estatísticas finais
+    // Estatísticas
     const sources = finalPlaces.reduce((acc: any, p) => {
       acc[p.source] = (acc[p.source] || 0) + 1;
       return acc;
@@ -555,7 +656,7 @@ export async function POST(req: Request) {
     console.log('='.repeat(60) + '\n');
 
     return NextResponse.json({ 
-      places: finalPlaces,
+      places: finalPlaces.slice(0, MAX_PLACES_PER_SEARCH),
       stats: {
         total: finalPlaces.length,
         sources,
