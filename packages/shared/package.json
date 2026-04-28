@@ -6,7 +6,6 @@
   "types": "src/index.ts",
   "scripts": {
     "prisma:generate": "prisma generate",
-    "build": "tsc",
     "lint": "eslint src/"
   },
   "dependencies": {

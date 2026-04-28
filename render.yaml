@@ -5,11 +5,11 @@ services:
     region: oregon
     plan: free
     rootDir: apps/web
-    buildCommand: pnpm install --frozen-lockfile && pnpm --filter @urb/shared run prisma:generate && pnpm build
+    buildCommand: npm install -g pnpm && pnpm install --frozen-lockfile && pnpm build
     startCommand: pnpm start
     envVars:
       - key: DATABASE_URL
-        value: sua_url_postgres_aqui
+        value: postgresql://neondb_owner:npg_4VnpHNf2uyFl@ep-hidden-bonus-ams71j2t-pooler.c-5.us-east-1.aws.neon.tech/urbano_holambra?sslmode=require&channel_binding=requirepostgresql://neondb_owner:npg_4VnpHNf2uyFl@ep-hidden-bonus-ams71j2t-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
       - key: NODE_ENV
         value: production
 
@@ -19,11 +19,11 @@ services:
     region: oregon
     plan: free
     rootDir: apps/admin
-    buildCommand: pnpm install --frozen-lockfile && pnpm --filter @urb/shared run prisma:generate && pnpm build
+    buildCommand: npm install -g pnpm && pnpm install --frozen-lockfile && pnpm build
     startCommand: pnpm start
     envVars:
       - key: DATABASE_URL
-        value: sua_url_postgres_aqui
+        value: postgresql://neondb_owner:npg_4VnpHNf2uyFl@ep-hidden-bonus-ams71j2t-pooler.c-5.us-east-1.aws.neon.tech/urbano_holambra?sslmode=require&channel_binding=requirepostgresql://neondb_owner:npg_4VnpHNf2uyFl@ep-hidden-bonus-ams71j2t-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
       - key: NODE_ENV
         value: production
 
@@ -33,10 +33,10 @@ services:
     region: oregon
     plan: free
     rootDir: apps/guia
-    buildCommand: pnpm install --frozen-lockfile && pnpm --filter @urb/shared run prisma:generate && pnpm build
+    buildCommand: npm install -g pnpm && pnpm install --frozen-lockfile && pnpm build
     startCommand: pnpm start
     envVars:
       - key: DATABASE_URL
-        value: postgresql://neondb_owner:npg_4VnpHNf2uyFl@ep-hidden-bonus-ams71j2t-pooler.c-5.us-east-1.aws.neon.tech/urbano_holambra?sslmode=require&channel_binding=requirepostgresql://neondb_owner:npg_4VnpHNf2uyFl@ep-hidden-bonus-ams71j2t-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+        value: postgres://...postgresql://neondb_owner:npg_4VnpHNf2uyFl@ep-hidden-bonus-ams71j2t-pooler.c-5.us-east-1.aws.neon.tech/urbano_holambra?sslmode=require&channel_binding=requirepostgresql://neondb_owner:npg_4VnpHNf2uyFl@ep-hidden-bonus-ams71j2t-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
       - key: NODE_ENV
         value: production

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001",
-    "build": "pnpm --filter @urb/shared run prisma:generate && next build",
+    "build": "prisma generate --schema=../../packages/shared/prisma/schema.prisma "build": "pnpm --filter @urb/shared run prisma:generate && next build""build": "pnpm --filter @urb/shared run prisma:generate && next build" next build",
     "start": "NODE_OPTIONS='--max-old-space-size=768' next start",
     "lint": "eslint .",
     "clean": "next clean"
