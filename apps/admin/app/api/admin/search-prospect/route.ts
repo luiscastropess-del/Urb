@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { db } from '@urb/shared';
 import { getProviderKey } from '@/lib/keys';
 
-// Função para buscar locais no OpenStreetMap via Overpass API
 async function searchOSM(city: string, category: string): Promise<any[]> {
   const categoryMap: Record<string, string> = {
     restaurant: 'amenity=restaurant',
@@ -15,21 +14,22 @@ async function searchOSM(city: string, category: string): Promise<any[]> {
   const osmTag = categoryMap[category] || 'amenity=restaurant';
   
   const query = `[out:json]; area["name"="${city}"]["boundary"="administrative"]->.city; node(area.city)["${osmTag.split('=')[0]}"="${osmTag.split('=')[1]}"]; out body;`;
-
-  const formBody = `data=${encodeURIComponent(query)}`;
-  const overpassUrl = 'https://overpass-api.de/api/interpreter';
+  
+  // Usar GET com query na URL
+  const overpassUrl = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
   
   try {
     const res = await fetch(overpassUrl, {
-      method: 'POST',
-      body: formBody,
+      method: 'GET',
       headers: { 
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Accept': 'application/json'
       }
     });
 
     if (!res.ok) {
       console.error('Overpass API error:', res.status, res.statusText);
+      const text = await res.text();
+      console.error('Response body:', text.substring(0, 500));
       return [];
     }
 
@@ -59,7 +59,6 @@ async function searchOSM(city: string, category: string): Promise<any[]> {
   }
 }
 
-// Função para enriquecer com Google Places
 async function enrichWithGoogle(place: any, googleApiKey: string) {
   if (!googleApiKey) return place;
 
