@@ -2,59 +2,39 @@ import { NextResponse } from 'next/server';
 import { db } from '@urb/shared';
 import { getApiRouteUrl } from '@/lib/routes';
 
-export async function POST(req: Request) {
-  try {
-    const { city, category } = await req.json();
-
-    if (city && category) {
-      // 1. Aciona a busca na API externa 
-      const searchRoute = await getApiRouteUrl("PROSPECT_API_SEARCH", "http://34.151.205.86:3000/api/search");
-      
-      const searchRes = await fetch(searchRoute, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ city, category })
-      });
-      // Aguarda o término da busca externa
-      if (!searchRes.ok) {
-        console.warn("Aviso: Falha ao disparar busca externa na API de prospect", searchRes.statusText);
-      }
-    }
-
-    return await fetchResults();
-  } catch (error: any) {
-    console.error("Erro search prospect POST:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-}
-
 export async function GET() {
-  return await fetchResults();
+  return await fetchPlaces();
 }
 
-async function fetchResults() {
-  try {
-    // 2. Coleta os resultados da API externa
-    const resultRoute = await getApiRouteUrl("PROSPECT_API_RESULT", "http://34.151.205.86:3000/api/result");
+// Manter POST para compatibilidade com o botão, mas internamente faremos GET na API externa
+export async function POST(req: Request) {
+  // Apenas para evitar quebra, faremos o mesmo que o GET
+  return await fetchPlaces();
+}
 
-    const res = await fetch(resultRoute, { 
+async function fetchPlaces() {
+  try {
+    // Usar a rota PROSPECT_API_PLACES que lista os lugares disponíveis
+    const placesRoute = await getApiRouteUrl("PROSPECT_API_PLACES", "https://prospect-urbano.onrender.com/api/places");
+    console.log("Buscando places de:", placesRoute);
+
+    const res = await fetch(placesRoute, { 
       cache: "no-store",
-      headers: {
-        'Accept': 'application/json'
-      }
+      headers: { 'Accept': 'application/json' }
     });
 
     if (!res.ok) {
-      throw new Error(`Falha ao buscar na API de prospect: ${res.statusText}`);
+      throw new Error(`Falha ao buscar locais para mapeamento: ${res.statusText}`);
     }
 
     const data = await res.json();
-    
+    console.log(`Recebidos ${data?.length || 0} lugares da API externa.`);
+
     if (!Array.isArray(data)) {
-       return NextResponse.json({ places: [] });
+      return NextResponse.json({ places: [] });
     }
 
-    // Identificar quais já foram importados pelo banco
+    // O restante do mapeamento (checar duplicados, formatar) continua igual
     const osmIds = data.map((p: any) => p.osm_id).filter(Boolean);
     
     let importedIds = new Set();
@@ -66,9 +46,8 @@ async function fetchResults() {
         importedIds = new Set(existing.map(e => e.googlePlaceId));
     }
 
-    // Formatar os locais simulando a estrutura que o frontend já usa
     const places = data.map((p: any) => ({
-      id: p.osm_id || Math.random().toString(), // usado como key no react e ref
+      id: p.osm_id || Math.random().toString(),
       osm_id: p.osm_id,
       name: p.name,
       address: p.address,
@@ -83,10 +62,10 @@ async function fetchResults() {
       category: p.category
     }));
 
+    console.log(`Retornando ${places.length} lugares processados.`);
     return NextResponse.json({ places });
   } catch (error: any) {
-    console.error("Erro fetch results:", error);
+    console.error("Erro fetch places:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
-
