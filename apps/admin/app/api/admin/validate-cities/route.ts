@@ -185,21 +185,18 @@ export async function POST() {
       // Análise com IA
       const { description, isTouristic } = await analyzeCity(cityName, state);
 
-      // 5. Cria a cidade no banco de dados
-      const newCity = await db.city.create({
-        data: {
-          name: cityName,
-          state: state,
-          description: description,
-          coverImage: coverImage || `https://source.unsplash.com/800x600/?${encodeURIComponent(cityName)},city`,
-          profileImage: profileImage || `https://source.unsplash.com/400x400/?${encodeURIComponent(cityName)},city`,
-          images: gallery,
-          featured: isTouristic,
-          isTouristic: isTouristic,
-          lat: coords?.lat || null,
-          lon: coords?.lon || null,
-        },
-      });
+     // 5. Cria a cidade no banco de dados
+const newCity = await db.city.create({
+  data: {
+    name: cityName,
+    state: state,
+    description: description,
+    coverImage: coverImage || `https://source.unsplash.com/800x600/?${encodeURIComponent(cityName)},city`,
+    profileImage: profileImage || `https://source.unsplash.com/400x400/?${encodeURIComponent(cityName)},city`,
+    galleryImages: gallery,
+    featured: isTouristic,
+  },
+});
 
       created++;
       results.push({ name: cityName, featured: isTouristic });
