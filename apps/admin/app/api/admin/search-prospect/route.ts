@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { db } from '@urb/shared';
 import { getProviderKey } from '@/lib/keys';
-import { GoogleGenAI } from '@google/genai';
+import Groq from 'groq-sdk';
 
 const OVERPASS_SERVERS = [
   'https://overpass-api.de/api/interpreter',
@@ -9,99 +9,270 @@ const OVERPASS_SERVERS = [
   'https://maps.mail.ru/osm/tools/overpass/api/interpreter'
 ];
 
-// ==================== CONFIGURAÇÃO DOS MODELOS DE IA ====================
-type AIModel = {
-  name: string;
-  displayName: string;
-  purpose: 'search' | 'enrich' | 'fast' | 'deep';
-  capabilities: string[];
+// ==================== CONFIGURAÇÃO GROQ ====================
+const GROQ_MODELS = {
+  // Modelo Principal - Alta qualidade para descrições e enriquecimento
+  primary: 'llama-3.3-70b-versatile',
+  
+  // Modelo de Busca/Raciocínio - Decide onde buscar dados faltantes
+  reasoning: 'meta-llama/llama-4-scout-17b-16e-instruct',
+  
+  // Modelo Rápido - Validações e tarefas simples
+  fast: 'llama-3.1-8b-instant',
+  
+  // Modelo Multimodal - Para análise de imagens (se necessário)
+  vision: 'llama-3.2-90b-vision-preview',
 };
 
-const AI_MODELS: AIModel[] = [
-  { name: 'gemini-2.5-flash', displayName: 'Gemini 2.5 Flash', purpose: 'fast', capabilities: ['search', 'categorize'] },
-  { name: 'gemma-3-1b', displayName: 'Gemma 3 1B', purpose: 'fast', capabilities: ['quick_search'] },
-  { name: 'gemma-3-4b', displayName: 'Gemma 3 4B', purpose: 'fast', capabilities: ['search', 'categorize'] },
-  { name: 'gemma-3-12b', displayName: 'Gemma 3 12B', purpose: 'search', capabilities: ['search', 'enrich', 'categorize'] },
-  { name: 'gemma-3-27b', displayName: 'Gemma 3 27B', purpose: 'deep', capabilities: ['search', 'enrich', 'deep_analysis'] },
-  { name: 'gemma-3-2b', displayName: 'Gemma 3 2B', purpose: 'fast', capabilities: ['quick_search'] },
-  { name: 'gemma-4-26b', displayName: 'Gemma 4 26B', purpose: 'deep', capabilities: ['search', 'enrich', 'deep_analysis', 'multilingual'] },
-  { name: 'gemma-4-31b', displayName: 'Gemma 4 31B', purpose: 'deep', capabilities: ['search', 'enrich', 'deep_analysis', 'multilingual', 'advanced_reasoning'] },
-  { name: 'gemini-2.5-pro', displayName: 'Gemini 2.5 Pro', purpose: 'search', capabilities: ['search', 'enrich', 'categorize'] },
-  { name: 'gemini-3.1-flash-lite', displayName: 'Gemini 3.1 Flash Lite', purpose: 'fast', capabilities: ['quick_search', 'categorize'] },
-  { name: 'gemini-2', displayName: 'Gemini 2', purpose: 'search', capabilities: ['search', 'enrich', 'categorize'] },
-  { name: 'gemini-2.5', displayName: 'Gemini 2.5', purpose: 'search', capabilities: ['search', 'enrich', 'categorize', 'multilingual'] },
-];
-
-// ==================== BUSCA COM IA ====================
-async function searchWithAI(city: string, category?: string): Promise<any[]> {
-  const apiKey = await getProviderKey('GEMINI');
+// Inicializa o cliente Groq
+async function getGroqClient(): Promise<Groq | null> {
+  const apiKey = await getProviderKey('GROQ_API');
   if (!apiKey) {
-    console.warn('[AI Search] Chave GEMINI não encontrada');
+    console.warn('[Groq] Chave GROQ_API não encontrada no banco');
+    return null;
+  }
+  return new Groq({ apiKey });
+}
+
+// ==================== BUSCA COM GROQ (IA Inteligente) ====================
+async function searchWithGroqAI(city: string, category?: string): Promise<any[]> {
+  const groq = await getGroqClient();
+  if (!groq) return [];
+
+  console.log(`[Groq AI] Buscando locais em "${city}" - Categoria: "${category || 'todas'}"`);
+
+  try {
+    const prompt = category && category !== 'all'
+      ? `Você é um especialista em dados locais do Brasil. 
+         Liste EXATAMENTE 10 estabelecimentos REAIS da categoria "${category}" em "${city}, SP".
+         
+         REGRAS IMPORTANTES:
+         - Apenas estabelecimentos que REALMENTE EXISTEM
+         - Endereços devem ser reais e verificáveis
+         - NÃO invente lugares fictícios
+         
+         Para cada local, forneça esses campos EXATOS:
+         - name: nome real do estabelecimento
+         - address: endereço completo (rua, número, bairro)
+         - phone: telefone real (se souber)
+         - category: "${category}"
+         
+         Retorne APENAS um array JSON válido, sem texto adicional, no formato:
+         [{"name": "...", "address": "...", "phone": "...", "category": "..."}]`
+      
+      : `Você é um especialista em dados locais do Brasil.
+         Liste EXATAMENTE 15 estabelecimentos REAIS e POPULARES em "${city}, SP".
+         
+         REGRAS IMPORTANTES:
+         - Apenas estabelecimentos que REALMENTE EXISTEM
+         - Variedade: restaurantes, cafés, lojas, atrações turísticas
+         - Endereços devem ser reais e verificáveis
+         - NÃO invente lugares fictícios
+         
+         Para cada local, forneça:
+         - name: nome real do estabelecimento
+         - address: endereço completo (rua, número, bairro)
+         - phone: telefone real (se souber)
+         - category: categoria do estabelecimento
+         
+         Retorne APENAS um array JSON válido, sem texto adicional.`;
+
+    const completion = await groq.chat.completions.create({
+      messages: [
+        {
+          role: 'system',
+          content: 'Você é um assistente especializado em dados geográficos brasileiros. Forneça apenas informações precisas e verificáveis. Retorne sempre JSON válido.'
+        },
+        {
+          role: 'user',
+          content: prompt
+        }
+      ],
+      model: GROQ_MODELS.reasoning,
+      temperature: 0.3, // Baixa temperatura para respostas mais precisas
+      max_tokens: 2048,
+      top_p: 0.9,
+    });
+
+    const responseText = completion.choices[0]?.message?.content || '';
+    console.log(`[Groq AI] Resposta recebida (${responseText.length} caracteres)`);
+
+    // Tenta extrair o JSON da resposta
+    const jsonMatch = responseText.match(/\[[\s\S]*\]/);
+    if (!jsonMatch) {
+      console.warn('[Groq AI] Resposta não contém JSON válido');
+      return [];
+    }
+
+    const places = JSON.parse(jsonMatch[0]);
+    
+    if (!Array.isArray(places) || places.length === 0) {
+      console.warn('[Groq AI] Array vazio ou inválido');
+      return [];
+    }
+
+    const mappedPlaces = places.map((p: any, i: number) => ({
+      osm_id: `groq-${Date.now()}-${i}`,
+      name: p.name || `Local ${i + 1}`,
+      address: p.address || `${city}, SP`,
+      phone: p.phone || null,
+      website: p.website || null,
+      instagram: p.instagram || null,
+      category: p.category || category || 'Estabelecimento',
+      type: p.category || category || 'Estabelecimento',
+      lat: null,
+      lon: null,
+      opening_hours: null,
+      hasFullAddress: !!(p.address && p.address.includes(',')),
+      source: 'groq-ai',
+      verified: false, // Será verificado depois
+    }));
+
+    console.log(`[Groq AI] ${mappedPlaces.length} lugares encontrados via IA`);
+    return mappedPlaces;
+
+  } catch (error: any) {
+    console.error('[Groq AI] Erro na busca:', error.message);
     return [];
   }
+}
 
-  const aiClient = new GoogleGenAI({ apiKey });
-  const results: any[] = [];
+// ==================== ENRIQUECIMENTO COM GROQ ====================
+async function enrichWithGroq(place: any): Promise<any> {
+  const groq = await getGroqClient();
+  if (!groq) return place;
 
-  // Usa modelos diferentes baseado na complexidade da busca
-  const searchModels = category 
-    ? ['gemma-3-12b', 'gemini-2.5-flash', 'gemma-4-26b']  // Categoria específica
-    : ['gemma-4-31b', 'gemma-3-27b', 'gemini-2.5-pro'];      // Busca ampla
+  console.log(`[Groq Enrich] Processando: ${place.name}`);
 
-  for (const modelName of searchModels) {
-    try {
-      console.log(`[AI Search] Tentando com ${modelName}...`);
+  try {
+    // Tarefa 1: Gerar descrição atraente
+    if (!place.description || place.description.length < 50) {
+      const descPrompt = `Gere uma descrição comercial atraente e profissional em português (Brasil) para:
       
-      const prompt = category 
-        ? `Liste 10 estabelecimentos da categoria "${category}" em ${city}, SP. 
-           Para cada um, forneça: nome, endereço completo (rua, número, bairro), telefone se souber.
-           Retorne APENAS um array JSON válido no formato:
-           [{"name": "Nome", "address": "Rua X, 123 - Bairro", "phone": "(19) 9999-9999", "category": "${category}"}]`
-        : `Liste 15 estabelecimentos variados e populares em ${city}, SP (restaurantes, cafés, lojas, atrações).
-           Para cada um, forneça: nome, endereço completo, categoria.
-           Retorne APENAS um array JSON válido.`;
+      Estabelecimento: ${place.name}
+      Categoria: ${place.category || place.type || 'Estabelecimento'}
+      Cidade: ${place.address || 'Holambra, SP'}
+      
+      REGRAS:
+      - Máximo 300 caracteres
+      - Destaque 2-3 pontos fortes
+      - Tom amigável e convidativo
+      - Use emojis moderadamente
+      - NÃO invente informações que não foram fornecidas
+      
+      Retorne APENAS a descrição, sem aspas ou texto adicional.`;
 
-      const result = await aiClient.models.generateContent({
-        model: modelName,
-        contents: prompt,
-        config: { 
-          responseMimeType: 'application/json',
-          temperature: 0.7,
-          maxOutputTokens: 2048,
-        }
+      const descCompletion = await groq.chat.completions.create({
+        messages: [
+          { role: 'system', content: 'Você é um redator publicitário especializado em turismo e gastronomia. Suas descrições são concisas e atraentes.' },
+          { role: 'user', content: descPrompt }
+        ],
+        model: GROQ_MODELS.primary,
+        temperature: 0.8,
+        max_tokens: 400,
       });
 
-      if (result.text) {
-        const places = JSON.parse(result.text);
-        if (Array.isArray(places) && places.length > 0) {
-          const mappedPlaces = places.map((p: any, i: number) => ({
-            osm_id: `ai-${modelName}-${Date.now()}-${i}`,
-            name: p.name || `Local ${i + 1}`,
-            address: p.address || `${city}, SP`,
-            phone: p.phone || null,
-            website: p.website || null,
-            instagram: p.instagram || null,
-            category: p.category || category || 'Estabelecimento',
-            type: p.category || category || 'Estabelecimento',
-            lat: null,
-            lon: null,
-            opening_hours: null,
-            hasFullAddress: !!(p.address && p.address.includes(',')),
-            source: modelName,
-          }));
-          
-          console.log(`[AI Search] ${modelName} retornou ${mappedPlaces.length} lugares`);
-          results.push(...mappedPlaces);
-          break; // Se deu certo, não precisa tentar outros modelos
+      const description = descCompletion.choices[0]?.message?.content?.trim();
+      if (description && description.length > 20) {
+        place.description = description;
+        console.log(`[Groq Enrich] Descrição gerada para ${place.name}`);
+      }
+    }
+
+    // Tarefa 2: Sugerir categorias e tags
+    const catPrompt = `Para o estabelecimento "${place.name}" (${place.category || 'Não categorizado'}):
+    
+    Sugira 3-5 categorias/tags relevantes que descrevam este negócio.
+    
+    Exemplos: "restaurante italiano", "café artesanal", "turismo rural", "comida caseira", "pet friendly"
+    
+    Retorne APENAS um array JSON de strings: ["categoria1", "categoria2", "categoria3"]`;
+
+    const catCompletion = await groq.chat.completions.create({
+      messages: [
+        { role: 'system', content: 'Você é um especialista em categorização de estabelecimentos comerciais. Retorne sempre JSON válido.' },
+        { role: 'user', content: catPrompt }
+      ],
+      model: GROQ_MODELS.fast,
+      temperature: 0.6,
+      max_tokens: 300,
+    });
+
+    try {
+      const catText = catCompletion.choices[0]?.message?.content || '';
+      const jsonMatch = catText.match(/\[[\s\S]*\]/);
+      if (jsonMatch) {
+        const categories = JSON.parse(jsonMatch[0]);
+        if (Array.isArray(categories) && categories.length > 0) {
+          place.types = [...new Set([...(place.types || []), ...categories])];
+          console.log(`[Groq Enrich] Categorias sugeridas: ${categories.join(', ')}`);
         }
       }
-    } catch (error: any) {
-      console.warn(`[AI Search] ${modelName} falhou:`, error.message);
-      continue;
+    } catch (parseError) {
+      console.warn('[Groq Enrich] Erro ao parsear categorias');
     }
+
+  } catch (error: any) {
+    console.error(`[Groq Enrich] Erro:`, error.message);
   }
 
-  return results;
+  return place;
+}
+
+// ==================== VERIFICAÇÃO DE DADOS COM GROQ ====================
+async function verifyWithGroq(places: any[]): Promise<any[]> {
+  const groq = await getGroqClient();
+  if (!groq) return places;
+
+  console.log(`[Groq Verify] Verificando ${places.length} lugares...`);
+
+  try {
+    const placesList = places.map((p, i) => 
+      `${i + 1}. ${p.name} - ${p.address || 'Endereço não informado'}`
+    ).join('\n');
+
+    const prompt = `Verifique se os seguintes estabelecimentos REALMENTE existem em Holambra/SP ou região próxima:
+    
+    ${placesList}
+    
+    Para cada um, responda se é REAL ou se parece ser FICTÍCIO.
+    Retorne APENAS um array JSON com os índices dos lugares que parecem ser REAIS.
+    Exemplo: [1, 3, 5, 7]
+    
+    Considere:
+    - Nomes de estabelecimentos conhecidos na região
+    - Endereços em ruas que existem na cidade
+    - Se o tipo de negócio é comum na região`;
+
+    const completion = await groq.chat.completions.create({
+      messages: [
+        { role: 'system', content: 'Você é um especialista em verificação de dados locais. Seja criterioso.' },
+        { role: 'user', content: prompt }
+      ],
+      model: GROQ_MODELS.reasoning,
+      temperature: 0.2,
+      max_tokens: 500,
+    });
+
+    const responseText = completion.choices[0]?.message?.content || '';
+    const jsonMatch = responseText.match(/\[[\s\S]*\]/);
+    
+    if (jsonMatch) {
+      const verifiedIndices = JSON.parse(jsonMatch[0]);
+      if (Array.isArray(verifiedIndices)) {
+        places.forEach((place, i) => {
+          place.verified = verifiedIndices.includes(i + 1);
+        });
+        const verifiedCount = places.filter(p => p.verified).length;
+        console.log(`[Groq Verify] ${verifiedCount}/${places.length} lugares verificados como reais`);
+      }
+    }
+
+  } catch (error: any) {
+    console.error('[Groq Verify] Erro:', error.message);
+  }
+
+  return places;
 }
 
 // ==================== OPENSTREETMAP ====================
@@ -146,7 +317,7 @@ async function searchOSM(city: string, category?: string): Promise<any[]> {
   for (const server of OVERPASS_SERVERS) {
     try {
       const url = `${server}?data=${encodedQuery}`;
-      console.log(`[OSM] Tentando: ${server}`);
+      console.log(`[OSM] Tentando: ${server.split('/')[2]}`);
       
       const res = await fetch(url, {
         method: 'GET',
@@ -158,7 +329,7 @@ async function searchOSM(city: string, category?: string): Promise<any[]> {
       });
 
       if (!res.ok) {
-        console.warn(`[OSM] ${server} falhou: ${res.status}`);
+        console.warn(`[OSM] ${server.split('/')[2]} falhou: ${res.status}`);
         continue;
       }
 
@@ -202,6 +373,7 @@ async function searchOSM(city: string, category?: string): Promise<any[]> {
             opening_hours: el.tags.opening_hours || null,
             hasFullAddress: !!(street && number),
             source: 'osm',
+            verified: true, // OSM são dados reais
           };
         });
 
@@ -209,7 +381,7 @@ async function searchOSM(city: string, category?: string): Promise<any[]> {
       return places;
       
     } catch (error: any) {
-      console.error(`[OSM] Erro no ${server}:`, error.message);
+      console.error(`[OSM] Erro:`, error.message);
       continue;
     }
   }
@@ -281,6 +453,7 @@ async function searchGeoapify(city: string, category?: string): Promise<any[]> {
         hasFullAddress: !!(props.street && props.housenumber),
         placeId: props.place_id,
         source: 'geoapify',
+        verified: true, // Geoapify são dados verificados
       };
     });
 
@@ -288,55 +461,6 @@ async function searchGeoapify(city: string, category?: string): Promise<any[]> {
     console.error('[Geoapify] Erro:', error.message);
     return [];
   }
-}
-
-// ==================== ENRIQUECIMENTO COM IA ====================
-async function enrichWithAI(place: any, task: 'description' | 'details' | 'all' = 'all'): Promise<any> {
-  const apiKey = await getProviderKey('GEMINI');
-  if (!apiKey) return place;
-
-  const aiClient = new GoogleGenAI({ apiKey });
-
-  try {
-    if (task === 'description' || task === 'all') {
-      // Modelos leves para descrições
-      const prompt = `Gere uma descrição atraente em português (Brasil) para: ${place.name} (${place.category || 'Estabelecimento'}) em ${place.address || 'Holambra, SP'}. Máximo 300 caracteres.`;
-      
-      const result = await aiClient.models.generateContent({
-        model: 'gemini-2.5-flash',
-        contents: prompt,
-        config: { maxOutputTokens: 500 }
-      });
-      
-      if (result.text) {
-        place.description = result.text;
-      }
-    }
-
-    if (task === 'details' || task === 'all') {
-      // Modelos mais potentes para detalhes
-      const prompt = `Para o estabelecimento "${place.name}" em ${place.address || 'Holambra, SP'}, 
-        sugira: 3-5 categorias relevantes, horário de funcionamento típico, e faixa de preço ($ a $$$$).
-        Retorne JSON: {"categories": [...], "hours": "...", "priceLevel": "$$"}`;
-      
-      const result = await aiClient.models.generateContent({
-        model: 'gemma-3-12b',
-        contents: prompt,
-        config: { responseMimeType: 'application/json' }
-      });
-      
-      if (result.text) {
-        const details = JSON.parse(result.text);
-        if (details.categories) place.types = details.categories;
-        if (details.hours) place.opening_hours = details.hours;
-        if (details.priceLevel) place.priceLevel = details.priceLevel;
-      }
-    }
-  } catch (error: any) {
-    console.error(`[AI Enrich] Erro:`, error.message);
-  }
-
-  return place;
 }
 
 // ==================== ROTA PRINCIPAL ====================
@@ -348,37 +472,52 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Cidade é obrigatória' }, { status: 400 });
     }
 
-    console.log(`\n🔍 Buscando em "${city}" - Categoria: "${category || 'todas'}"`);
+    console.log(`\n🔍 BUSCA INICIADA: "${city}" - Categoria: "${category || 'todas'}"`);
+    console.log('='.repeat(60));
     
     let places: any[] = [];
     
-    // 1. Tenta OSM
-    console.log('📡 Tentando OpenStreetMap...');
+    // CAMADA 1: OpenStreetMap (dados reais e gratuitos)
+    console.log('📡 CAMADA 1: OpenStreetMap');
     places = await searchOSM(city, category || undefined);
     
-    // 2. Se OSM falhar, tenta Geoapify
+    // CAMADA 2: Geoapify (dados comerciais verificados)
     if (places.length === 0) {
-      console.log('📡 Tentando Geoapify...');
+      console.log('📡 CAMADA 2: Geoapify');
       places = await searchGeoapify(city, category || undefined);
     }
     
-    // 3. Se ainda não encontrou, usa IA
+    // CAMADA 3: Groq AI (busca inteligente)
     if (places.length === 0) {
-      console.log('🤖 Buscando com IA...');
-      places = await searchWithAI(city, category || undefined);
+      console.log('🤖 CAMADA 3: Groq AI (busca inteligente)');
+      places = await searchWithGroqAI(city, category || undefined);
     }
     
-    // 4. Enriquece com IA (descrições e categorias)
+    // Se encontrou lugares, enriquece com Groq
     if (places.length > 0) {
-      console.log('✨ Enriquecendo com IA...');
-      places = await Promise.all(places.map(p => enrichWithAI(p, 'all')));
+      console.log(`\n✨ ENRIQUECENDO ${places.length} lugares...`);
+      console.log('-'.repeat(40));
+      
+      // Enriquece cada lugar com descrições e categorias
+      places = await Promise.all(places.map(p => enrichWithGroq(p)));
+      
+      // Verifica autenticidade (apenas para lugares de IA)
+      const aiPlaces = places.filter(p => p.source === 'groq-ai');
+      if (aiPlaces.length > 0) {
+        console.log('\n🔍 VERIFICANDO autenticidade dos dados...');
+        places = await verifyWithGroq(places);
+      }
     }
     
     if (places.length === 0) {
-      return NextResponse.json({ places: [], message: 'Nenhum local encontrado em nenhuma fonte' });
+      console.log('❌ Nenhum local encontrado em nenhuma fonte');
+      return NextResponse.json({ 
+        places: [], 
+        message: 'Nenhum local encontrado. Tente outra cidade ou categoria.' 
+      });
     }
 
-    // Verifica duplicatas
+    // Verifica duplicatas no banco
     const osmIds = places.map(p => p.osm_id);
     const existing = await db.place.findMany({
       where: { googlePlaceId: { in: osmIds } },
@@ -392,10 +531,35 @@ export async function POST(req: Request) {
       alreadyImported: importedIds.has(p.osm_id),
     }));
 
-    console.log(`✅ ${finalPlaces.length} lugares encontrados (fonte: ${finalPlaces[0]?.source || 'desconhecida'})\n`);
-    return NextResponse.json({ places: finalPlaces });
+    // Estatísticas finais
+    const sources = finalPlaces.reduce((acc: any, p) => {
+      acc[p.source] = (acc[p.source] || 0) + 1;
+      return acc;
+    }, {});
+    
+    const verifiedCount = finalPlaces.filter(p => p.verified).length;
+    const fullAddressCount = finalPlaces.filter(p => p.hasFullAddress).length;
+
+    console.log('\n📊 RESULTADO FINAL:');
+    console.log(`   Total: ${finalPlaces.length} lugares`);
+    console.log(`   Fontes: ${JSON.stringify(sources)}`);
+    console.log(`   Verificados: ${verifiedCount}`);
+    console.log(`   Endereço completo: ${fullAddressCount}`);
+    console.log(`   Já importados: ${importedIds.size}`);
+    console.log('='.repeat(60) + '\n');
+
+    return NextResponse.json({ 
+      places: finalPlaces,
+      stats: {
+        total: finalPlaces.length,
+        sources,
+        verified: verifiedCount,
+        fullAddress: fullAddressCount,
+        alreadyImported: importedIds.size,
+      }
+    });
   } catch (error: any) {
-    console.error('❌ Erro:', error);
+    console.error('❌ Erro na busca:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
