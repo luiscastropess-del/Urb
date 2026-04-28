@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { 
   Building2, Plus, Search, Edit2, Trash2, MapPin, 
-  Image as ImageIcon, MoreVertical, X, Check, Camera
+  Image as ImageIcon, MoreVertical, X, Check, Camera, Sparkles
 } from "lucide-react";
 import { getCities, createCity, updateCity, deleteCity } from "@/app/actions.cities";
 import { useToast } from "@/components/ToastProvider";
@@ -13,6 +13,7 @@ export default function AdminCitiesPage() {
   const [cities, setCities] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [analyzing, setAnalyzing] = useState(false);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCity, setEditingCity] = useState<any>(null);
@@ -126,6 +127,26 @@ export default function AdminCitiesPage() {
     }));
   };
 
+  // NOVA FUNÇÃO: Analisar cidades
+  const handleAnalyzeCities = async () => {
+    if (!confirm('Isso irá analisar todas as cidades, atualizar perfis incorretos e remover duplicatas. Continuar?')) return;
+    setAnalyzing(true);
+    try {
+      const res = await fetch('/api/admin/analyze-cities', { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        showToast(`✅ ${data.message}`);
+        loadCities(true);
+      } else {
+        showToast(`❌ ${data.error || 'Erro na análise'}`);
+      }
+    } catch (e) {
+      showToast('Erro de conexão');
+    } finally {
+      setAnalyzing(false);
+    }
+  };
+
   const filteredCities = cities.filter(c => 
     c.name.toLowerCase().includes(search.toLowerCase()) || 
     (c.state && c.state.toLowerCase().includes(search.toLowerCase()))
@@ -157,6 +178,18 @@ export default function AdminCitiesPage() {
                 className="pl-10 pr-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 w-full sm:w-64"
               />
             </div>
+            {/* BOTÃO ANALISAR CIDADES */}
+            <button 
+              onClick={handleAnalyzeCities}
+              disabled={analyzing}
+              className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-sm font-semibold transition flex items-center justify-center gap-2 shadow-md disabled:opacity-50 whitespace-nowrap"
+            >
+              {analyzing ? (
+                <>Analisando...</>
+              ) : (
+                <><Sparkles size={16} /> Analisar Cidades</>
+              )}
+            </button>
             <button 
               onClick={() => handleOpenModal()}
               className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-semibold transition flex items-center justify-center gap-2 shadow-md"
@@ -422,4 +455,4 @@ export default function AdminCitiesPage() {
       )}
     </div>
   );
-}
+                             }
