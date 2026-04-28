@@ -2,13 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'images.mnstatic.com',
-      },
-      // Se houver mais domínios de imagem, adicione-os aqui
-    ],
+    unoptimized: true,
   },
   typescript: {
     ignoreBuildErrors: true,
