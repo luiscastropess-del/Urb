@@ -6,7 +6,6 @@
   "types": "src/index.ts",
   "scripts": {
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate deploy",
     "prisma:dbpush": "prisma db push"
   },
   "dependencies": {
