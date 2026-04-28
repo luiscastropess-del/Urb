@@ -13,7 +13,6 @@ const OVERPASS_SERVERS = [
 ];
 
 // ==================== LIMITES DE PROSPECÇÃO ====================
-const MAX_PLACES_PER_SEARCH = 40;
 const BATCH_SIZE = 10; // Para enriquecimento em lotes
 
 // ==================== CONFIGURAÇÃO GROQ ====================
