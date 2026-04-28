@@ -1,0 +1,10 @@
+{
+  "name": "Demo CRM",
+  "slug": "demo-crm",
+  "description": "Um plugin CRMs Demo em painel Iframe para conversas nativas com clientes sincronizados.",
+  "author": "Google Next",
+  "version": "1.0.0",
+  "isActive": true,
+  "manifest": "{\\"type\\":\\"iframe\\", \\"version\\": \\"1.0.0\\"}",
+  "codeHtml": "<html>\\n  <body style=\\"font-family:sans-serif;background-color:#f8fafc;padding:2rem;color:#334155;\\">\\n    <h1 style=\\"color:#4f46e5;\\">Demo CRM Plugin</h1>\\n    <p>Este é um plugin simulado carregado dinamicamente via JS/HTML armazenado no banco de dados.</p>\\n    <div style=\\"background:white;padding:2rem;border-radius:1rem;box-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1);margin-top:2rem;\\">\\n      <h3>Últimas Conversas Automáticas</h3>\\n      <ul style=\\"line-height:2;\\">\\n        <li><b>João Pedro</b> - Interessado no roteiro Centro Histórico</li>\\n        <li><b>Maria Silva</b> - Dúvida sobre restaurante XYZ</li>\\n        <li><b>Carlos Henrique</b> - Quer reservar pacote VIP</li>\\n      </ul>\\n      <button style=\\"background:#4f46e5;color:white;padding:12px 24px;border:none;border-radius:8px;font-weight:bold;margin-top:20px;cursor:pointer;\\">Sincronizar CRM Agora</button>\\n    </div>\\n  </body>\\n</html>"
+}

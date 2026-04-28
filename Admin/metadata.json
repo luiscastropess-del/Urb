@@ -1,8 +1,0 @@
-{
-  "name": "City Ventures",
-  "description": "City Ventures - Seu guia completo de passeios e eventos divertidos.",
-  "requestFramePermissions": [
-    "geolocation"
-  ],
-  "majorCapabilities": []
-}

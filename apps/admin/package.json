@@ -1,0 +1,51 @@
+{
+  "name": "@urb/admin",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "npx prisma generate --schema=packages/database/schema.prisma && NODE_OPTIONS='--max-old-space-size=768' next build",
+    "start": "NODE_OPTIONS='--max-old-space-size=768' next start",
+    "lint": "eslint .",
+    "clean": "next clean"
+  },
+  "dependencies": {
+    "@google/genai": "^1.17.0",
+    "@hookform/resolvers": "^5.2.1",
+    "@prisma/client": "^6.4.1",
+    "@urb/shared": "workspace:*",
+    "@urb/ui": "workspace:*",
+    "adm-zip": "^0.5.17",
+    "autoprefixer": "^10.4.21",
+    "bcryptjs": "^3.0.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "fs-extra": "^11.3.4",
+    "jose": "^6.2.2",
+    "lucide-react": "^0.553.0",
+    "motion": "^12.23.24",
+    "next": "^15.4.9",
+    "octokit": "^5.0.5",
+    "postcss": "^8.5.6",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^3.4.19"
+  },
+  "devDependencies": {
+    "@types/adm-zip": "^0.5.8",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/tailwindcss": "^3.1.0",
+    "eslint": "9.39.1",
+    "eslint-config-next": "16.0.8",
+    "firebase-tools": "^15.0.0",
+    "prisma": "^6.4.1",
+    "tsx": "^4.21.0",
+    "typescript": "5.9.3"
+  }
+}

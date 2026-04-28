@@ -1,0 +1,8 @@
+{
+  "name": "Urbano Guide",
+  "description": "App de estabelecimentos locais com busca, geolocalização e opções premium.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": []
+}

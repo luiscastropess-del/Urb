@@ -1,0 +1,18 @@
+{
+  "name": "@urb/shared",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "@prisma/client": "^5"
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "prisma": "^5"
+  }
+}
