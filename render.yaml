@@ -5,11 +5,17 @@ services:
     region: oregon
     plan: free
     rootDir: apps/web
-    buildCommand: npm install -g pnpm && pnpm install --frozen-lockfile && pnpm build
+    buildCommand: |
+      npm install -g pnpm
+      pnpm install --no-frozen-lockfile
+      npx prisma generate --schema=../../packages/shared/prisma/schema.prisma
+      pnpm build
     startCommand: pnpm start
     envVars:
       - key: DATABASE_URL
-        value: postgresql://neondb_owner:npg_4VnpHNf2uyFl@ep-hidden-bonus-ams71j2t-pooler.c-5.us-east-1.aws.neon.tech/urbano_holambra?sslmode=require&channel_binding=requirepostgresql://neondb_owner:npg_4VnpHNf2uyFl@ep-hidden-bonus-ams71j2t-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+        fromDatabase:
+          name: urb-db
+          property: connectionString
       - key: NODE_ENV
         value: production
 
@@ -19,11 +25,17 @@ services:
     region: oregon
     plan: free
     rootDir: apps/admin
-    buildCommand: npm install -g pnpm && pnpm install --frozen-lockfile && pnpm build
+    buildCommand: |
+      npm install -g pnpm
+      pnpm install --no-frozen-lockfile
+      npx prisma generate --schema=../../packages/shared/prisma/schema.prisma
+      pnpm build
     startCommand: pnpm start
     envVars:
       - key: DATABASE_URL
-        value: postgresql://neondb_owner:npg_4VnpHNf2uyFl@ep-hidden-bonus-ams71j2t-pooler.c-5.us-east-1.aws.neon.tech/urbano_holambra?sslmode=require&channel_binding=requirepostgresql://neondb_owner:npg_4VnpHNf2uyFl@ep-hidden-bonus-ams71j2t-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+        fromDatabase:
+          name: urb-db
+          property: connectionString
       - key: NODE_ENV
         value: production
 
@@ -33,10 +45,16 @@ services:
     region: oregon
     plan: free
     rootDir: apps/guia
-    buildCommand: npm install -g pnpm && pnpm install --frozen-lockfile && pnpm build
+    buildCommand: |
+      npm install -g pnpm
+      pnpm install --no-frozen-lockfile
+      npx prisma generate --schema=../../packages/shared/prisma/schema.prisma
+      pnpm build
     startCommand: pnpm start
     envVars:
       - key: DATABASE_URL
-        value: postgres://...postgresql://neondb_owner:npg_4VnpHNf2uyFl@ep-hidden-bonus-ams71j2t-pooler.c-5.us-east-1.aws.neon.tech/urbano_holambra?sslmode=require&channel_binding=requirepostgresql://neondb_owner:npg_4VnpHNf2uyFl@ep-hidden-bonus-ams71j2t-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+        fromDatabase:
+          name: urb-db
+          property: connectionString
       - key: NODE_ENV
         value: production
