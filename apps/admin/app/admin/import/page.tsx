@@ -200,6 +200,7 @@ export default function ImportPlacesPage() {
                  <label className="text-xs font-medium text-slate-500">Categoria / Busca</label>
                  <select value={category} onChange={e=>setCategory(e.target.value)} className="w-full bg-slate-100 dark:bg-slate-800 border-0 rounded-xl p-3 text-sm focus:ring-2 focus:ring-green-500/50 outline-none">
                     <option value="">Selecione...</option>
+                    <option value="all">🎲 Sem categoria (Aleatório)</option>
                     <option value="restaurant">🍽️ Restaurante</option>
                     <option value="cafe">☕ Café</option>
                     <option value="tourist_attraction">🎡 Atração Turística</option>
