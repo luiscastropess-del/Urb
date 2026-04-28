@@ -4,8 +4,9 @@ import { useToast } from "@/components/ToastProvider";
 import { ArrowLeft, MapPin, Star, Share2, Heart, Clock, Phone, Globe, Instagram, CheckCircle2, ChevronRight, MessageCircle, Image as ImageIcon, Utensils, Trophy, Wifi, CreditCard, Car, ThumbsUp, ChevronDown, CalendarPlus, Crown } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { getPlace } from "@/app/actions";
-import { Place, Photo, Review, OpeningHours } from "@prisma/client";
+// IMPORTAÇÕES ESTÁTICAS (MAIS SEGURAS)
+import { getPlace, getFavorites, toggleFavorite, createCheckIn } from "@/app/actions";
+import type { Place, Photo, Review, OpeningHours } from "@prisma/client";
 
 type CompletePlace = Place & {
   photos?: Photo[];
@@ -20,35 +21,34 @@ export default function PlacePublicPage() {
   const id = params.id as string;
   
   const [place, setPlace] = useState<CompletePlace | null>(null);
-
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     if (id) {
-      getPlace(id).then(data => {
-        if (data) {
-           setPlace(data);
-           // Check favorite status if session exists
-           import('@/app/actions').then(({ getFavorites }) => {
-              getFavorites().then(favs => {
-                  if(favs.find((f: any) => f.placeId === data.id)) setIsFavorite(true);
-              });
-           });
-        }
-      });
+      getPlace(id)
+        .then(data => {
+          if (data) {
+            setPlace(data);
+            // Verifica favoritos usando a importação estática
+            getFavorites().then(favs => {
+              if(favs.find((f: any) => f.placeId === data.id)) setIsFavorite(true);
+            }).catch(() => {});
+          }
+        })
+        .catch(() => {});
     }
   }, [id]);
 
   const toggleFav = async () => {
+    if (!place) return;
     try {
-      const { toggleFavorite } = await import('@/app/actions');
-      const res = await toggleFavorite({ placeId: place!.id });
+      const res = await toggleFavorite({ placeId: place.id });
       if (res.status === 'added') {
-         setIsFavorite(true);
-         showToast('❤️ Adicionado aos favoritos!');
+        setIsFavorite(true);
+        showToast('❤️ Adicionado aos favoritos!');
       } else {
-         setIsFavorite(false);
-         showToast('💔 Removido dos favoritos!');
+        setIsFavorite(false);
+        showToast('💔 Removido dos favoritos!');
       }
     } catch (e: any) {
       showToast('⚠️ Entre para favoritar locais');
@@ -57,9 +57,9 @@ export default function PlacePublicPage() {
   };
 
   const handleCheckIn = async () => {
+    if (!place) return;
     try {
-      const { createCheckIn } = await import('@/app/actions');
-      await createCheckIn(place!.id);
+      await createCheckIn(place.id);
       showToast('✅ Check-in realizado! +15 XP');
     } catch (err: any) {
       if (err.message.includes('not logged') || err.message === 'Auth required') {
