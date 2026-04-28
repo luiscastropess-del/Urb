@@ -1,0 +1,273 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String   @id @default(uuid())
+  name            String
+  email           String   @unique
+  password        String
+  role            String   @default("user")
+  avatar          String?
+  level           Int      @default(1)
+  xp              Int      @default(0)
+  plan            String   @default("free")
+  paymentStatus   String   @default("NONE")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  activities      Activity[]
+  checkins        CheckIn[]
+  favorites       Favorite[]
+  reviews         Review[]
+  comments        Comment[]
+  reservations    Reservation[] @relation("CustomerReservations")
+  guideProfile    GuideProfile?
+  notifications   Notification[]
+  apiKeys         DeveloperApiKey[]
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  title     String
+  message   String
+  type      String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+model Place {
+  id                 String   @id @default(uuid())
+  name               String
+  description        String?
+  address            String?
+  city               String?
+  state              String?
+  cep                String?
+  phone              String?
+  email              String?
+  website            String?
+  instagram          String?
+
+  emoji              String   @default("📍")
+  type               String   @default("Lugar")
+  category           String?
+  tags               String?
+  featured           Boolean  @default(false)
+  premium            Boolean  @default(false)
+  plan               String   @default("free")
+
+  coverImage         String?
+  profileImage       String?
+  images             String?
+  photo_url          String?
+
+  rating             Float?
+  reviews            String?
+  userRatingsTotal   Int?     @default(0)
+
+  googlePlaceId      String?  @unique
+  osm_id             String?  @unique
+  types              String[]
+  priceLevel         Int?
+  opening_hours      String?
+
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  activities     Activity[]
+  checkins       CheckIn[]
+  favorites      Favorite[]
+  photos         Photo[]
+  comments       Comment[]
+  routePlaces    RoutePlace[]
+  googleReviews  Review[]
+  openingHours   OpeningHours?
+  menuLink       MenuLink?
+}
+
+model Photo {
+  id      String @id @default(uuid())
+  url     String
+  placeId String
+
+  place Place @relation(fields: [placeId], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id        String  @id @default(uuid())
+  rating    Float
+  text      String
+  placeId   String
+  userId    String?
+
+  place Place @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  user  User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  text      String
+  rating    Float?
+  createdAt DateTime @default(now())
+
+  userId  String
+  placeId String?
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  place Place? @relation(fields: [placeId], references: [id], onDelete: Cascade)
+}
+
+model CheckIn {
+  id        String   @id @default(uuid())
+  userId    String
+  placeId   String
+  createdAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  place Place @relation(fields: [placeId], references: [id], onDelete: Cascade)
+}
+
+model Activity {
+  id          String   @id @default(uuid())
+  userId      String
+  type        String
+  description String?
+  placeId     String?
+  xpEarned    Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  place Place? @relation(fields: [placeId], references: [id])
+}
+
+model Favorite {
+  id        String   @id @default(uuid())
+  userId    String?
+  placeId   String
+  createdAt DateTime @default(now())
+
+  user  User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  place Place @relation(fields: [placeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, placeId])
+}
+
+model GuideProfile {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  bio       String?
+  languages String[]
+
+  status    String   @default("PENDING")
+  rating    Float?
+  featured  Boolean  @default(false)
+
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscription  Subscription?
+  packages      TourPackage[]
+  routes        TourRoute[]
+}
+
+model Plan {
+  id        String   @id @default(uuid())
+  name      String
+  price     Float
+  interval  String   @default("monthly")
+  features  String[]
+  isActive  Boolean  @default(true)
+
+  subscriptions Subscription[]
+}
+
+model Coupon {
+  id         String   @id @default(uuid())
+  code       String   @unique
+  discount   Float
+  isActive   Boolean  @default(true)
+  expiresAt  DateTime?
+
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id               String   @id @default(uuid())
+  guideId          String   @unique
+  planId           String
+  couponId         String?
+  status           String   @default("active")
+  paymentStatus    String?
+  currentPeriodEnd DateTime
+
+  guide  GuideProfile @relation(fields: [guideId], references: [id], onDelete: Cascade)
+  plan   Plan         @relation(fields: [planId], references: [id], onDelete: Cascade)
+  coupon Coupon?      @relation(fields: [couponId], references: [id])
+}
+
+model TourRoute {
+  id      String @id @default(uuid())
+  guideId String
+  title   String
+
+  guide  GuideProfile @relation(fields: [guideId], references: [id], onDelete: Cascade)
+  places RoutePlace[]
+}
+
+model RoutePlace {
+  id      String @id @default(uuid())
+  routeId String
+  placeId String
+
+  route TourRoute @relation(fields: [routeId], references: [id])
+  place Place     @relation(fields: [placeId], references: [id])
+}
+
+model TourPackage {
+  id      String @id @default(uuid())
+  guideId String
+  title   String
+  price   Float
+
+  guide        GuideProfile  @relation(fields: [guideId], references: [id], onDelete: Cascade)
+  reservations Reservation[]
+}
+
+model Reservation {
+  id         String   @id @default(uuid())
+  customerId String
+  packageId  String
+  date       DateTime
+
+  customer User        @relation("CustomerReservations", fields: [customerId], references: [id])
+  package  TourPackage @relation(fields: [packageId], references: [id])
+}
+
+model DeveloperApiKey {
+  id     String @id @default(uuid())
+  userId String
+  key    String @unique
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model OpeningHours {
+  id      String @id @default(uuid())
+  placeId String @unique
+  place   Place  @relation(fields: [placeId], references: [id], onDelete: Cascade)
+}
+
+model MenuLink {
+  id      String @id @default(uuid())
+  placeId String @unique
+  place   Place  @relation(fields: [placeId], references: [id], onDelete: Cascade)
+}

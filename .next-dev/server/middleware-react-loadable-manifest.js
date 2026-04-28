@@ -1,0 +1,1 @@
+self.__REACT_LOADABLE_MANIFEST='{"app/(main)/explore/page.tsx -> @/app/actions":{"id":5710,"files":[]},"app/(main)/favorites/page.tsx -> @/app/actions":{"id":5710,"files":[]},"app/(main)/profile/reservas/page.tsx -> @/app/actions.reservations":{"id":9023,"files":[]},"app/place/[id]/page.tsx -> @/app/actions":{"id":5710,"files":[]}}';

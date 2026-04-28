@@ -1,0 +1,22 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/upload/route": "app/api/upload/route.js",
+  "/api/cron/auto-import/route": "app/api/cron/auto-import/route.js",
+  "/place/[id]/page": "app/place/[id]/page.js",
+  "/premium/cafe/page": "app/premium/cafe/page.js",
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js",
+  "/premium/dashboard/page": "app/premium/dashboard/page.js",
+  "/pricing/page": "app/pricing/page.js",
+  "/(main)/cidades/[id]/page": "app/(main)/cidades/[id]/page.js",
+  "/(main)/events/page": "app/(main)/events/page.js",
+  "/(main)/explore/page": "app/(main)/explore/page.js",
+  "/(main)/favorites/page": "app/(main)/favorites/page.js",
+  "/(main)/guias/[id]/page": "app/(main)/guias/[id]/page.js",
+  "/(main)/guias/page": "app/(main)/guias/page.js",
+  "/(main)/pacotes/[id]/page": "app/(main)/pacotes/[id]/page.js",
+  "/(main)/pacotes/page": "app/(main)/pacotes/page.js",
+  "/(main)/profile/edit/page": "app/(main)/profile/edit/page.js",
+  "/(main)/profile/page": "app/(main)/profile/page.js",
+  "/(main)/profile/reservas/page": "app/(main)/profile/reservas/page.js"
+}
