@@ -2,6 +2,13 @@ import { NextResponse } from 'next/server';
 import { db } from '@urb/shared';
 import { getProviderKey } from '@/lib/keys';
 
+// Lista de servidores Overpass para tentar (fallback)
+const OVERPASS_SERVERS = [
+  'https://overpass-api.de/api/interpreter',
+  'https://overpass.kumi.systems/api/interpreter',
+  'https://maps.mail.ru/osm/tools/overpass/api/interpreter'
+];
+
 async function searchOSM(city: string, category: string): Promise<any[]> {
   const categoryMap: Record<string, string> = {
     restaurant: 'amenity=restaurant',
@@ -15,48 +22,63 @@ async function searchOSM(city: string, category: string): Promise<any[]> {
   
   const query = `[out:json]; area["name"="${city}"]["boundary"="administrative"]->.city; node(area.city)["${osmTag.split('=')[0]}"="${osmTag.split('=')[1]}"]; out body;`;
   
-  // Usar GET com query na URL
-  const overpassUrl = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
+  const encodedQuery = encodeURIComponent(query);
   
-  try {
-    const res = await fetch(overpassUrl, {
-      method: 'GET',
-      headers: { 
-        'Accept': 'application/json'
+  // Tenta cada servidor até um funcionar
+  for (const server of OVERPASS_SERVERS) {
+    try {
+      const url = `${server}?data=${encodedQuery}`;
+      console.log(`Tentando Overpass: ${server}`);
+      
+      const res = await fetch(url, {
+        method: 'GET',
+        headers: { 
+          'Accept': 'application/json',
+          'User-Agent': 'Urb-Admin/1.0 (luiscastropess-del)'
+        },
+        signal: AbortSignal.timeout(15000) // timeout de 15 segundos
+      });
+
+      if (!res.ok) {
+        console.warn(`Overpass ${server} falhou: ${res.status} ${res.statusText}`);
+        continue; // tenta o próximo servidor
       }
-    });
 
-    if (!res.ok) {
-      console.error('Overpass API error:', res.status, res.statusText);
-      const text = await res.text();
-      console.error('Response body:', text.substring(0, 500));
-      return [];
+      const data = await res.json();
+      console.log(`Overpass ${server} retornou ${data.elements?.length || 0} elementos`);
+      
+      const validPlaces = data.elements.filter((el: any) => 
+        el.tags?.name && 
+        el.tags?.['addr:street'] && 
+        el.tags?.['addr:city']
+      );
+
+      if (validPlaces.length > 0) {
+        return validPlaces.map((el: any) => ({
+          osm_id: `osm-${el.id}`,
+          name: el.tags.name,
+          address: `${el.tags['addr:street']}, ${el.tags['addr:housenumber'] || ''} - ${el.tags['addr:city']}`,
+          phone: el.tags.phone || el.tags['contact:phone'] || null,
+          website: el.tags.website || el.tags['contact:website'] || null,
+          instagram: el.tags['contact:instagram'] || null,
+          category: category,
+          lat: el.lat,
+          lon: el.lon,
+          opening_hours: el.tags.opening_hours || null,
+        }));
+      }
+      
+      console.log(`Nenhum lugar com endereço completo encontrado em ${server}`);
+      return []; // se encontrou lugares mas nenhum válido, para de tentar
+      
+    } catch (error: any) {
+      console.error(`Erro no servidor ${server}:`, error.message);
+      continue;
     }
-
-    const data = await res.json();
-    
-    const validPlaces = data.elements.filter((el: any) => 
-      el.tags?.name && 
-      el.tags?.['addr:street'] && 
-      el.tags?.['addr:city']
-    );
-
-    return validPlaces.map((el: any) => ({
-      osm_id: `osm-${el.id}`,
-      name: el.tags.name,
-      address: `${el.tags['addr:street']}, ${el.tags['addr:housenumber'] || ''} - ${el.tags['addr:city']}`,
-      phone: el.tags.phone || el.tags['contact:phone'] || null,
-      website: el.tags.website || el.tags['contact:website'] || null,
-      instagram: el.tags['contact:instagram'] || null,
-      category: category,
-      lat: el.lat,
-      lon: el.lon,
-      opening_hours: el.tags.opening_hours || null,
-    }));
-  } catch (error) {
-    console.error('Erro na busca OSM:', error);
-    return [];
   }
+
+  console.error('Todos os servidores Overpass falharam');
+  return [];
 }
 
 async function enrichWithGoogle(place: any, googleApiKey: string) {
