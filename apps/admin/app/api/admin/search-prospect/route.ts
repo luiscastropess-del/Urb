@@ -3,11 +3,18 @@ import { db } from '@urb/shared';
 import { getProviderKey } from '@/lib/keys';
 import Groq from 'groq-sdk';
 
+const MAX_PLACES_PER_SEARCH = 40;
+const BATCH_SIZE = 10;
+
 const OVERPASS_SERVERS = [
   'https://overpass-api.de/api/interpreter',
   'https://overpass.kumi.systems/api/interpreter',
   'https://maps.mail.ru/osm/tools/overpass/api/interpreter'
 ];
+
+// ==================== LIMITES DE PROSPECÇÃO ====================
+const MAX_PLACES_PER_SEARCH = 40;
+const BATCH_SIZE = 10; // Para enriquecimento em lotes
 
 // ==================== CONFIGURAÇÃO GROQ ====================
 const GROQ_MODELS = {
@@ -44,7 +51,7 @@ async function searchWithGroqAI(city: string, category?: string): Promise<any[]>
   try {
     const prompt = category && category !== 'all'
       ? `Você é um especialista em dados locais do Brasil. 
-         Liste EXATAMENTE 10 estabelecimentos REAIS da categoria "${category}" em "${city}, SP".
+         Liste EXATAMENTE 20 estabelecimentos REAIS da categoria "${category}" em "${city}, SP".
          
          REGRAS IMPORTANTES:
          - Apenas estabelecimentos que REALMENTE EXISTEM
@@ -61,7 +68,7 @@ async function searchWithGroqAI(city: string, category?: string): Promise<any[]>
          [{"name": "...", "address": "...", "phone": "...", "category": "..."}]`
       
       : `Você é um especialista em dados locais do Brasil.
-         Liste EXATAMENTE 15 estabelecimentos REAIS e POPULARES em "${city}, SP".
+         Liste EXATAMENTE 20 estabelecimentos REAIS e POPULARES em "${city}, SP".
          
          REGRAS IMPORTANTES:
          - Apenas estabelecimentos que REALMENTE EXISTEM
@@ -299,9 +306,9 @@ async function searchOSM(city: string, category?: string): Promise<any[]> {
     
     if (osmTag.includes('=')) {
       const [key, value] = osmTag.split('=');
-      query = `[out:json]; area["name"="${city}"]["boundary"="administrative"]->.city; node(area.city)["${key}"="${value}"]; out body;`;
+      query = `[out:json]; area["name"="${city}"]["boundary"="administrative"]->.city; node(area.city)["${key}"="${value}"]; out body 40;`;
     } else {
-      query = `[out:json]; area["name"="${city}"]["boundary"="administrative"]->.city; node(area.city)["name"~"${category}",i]; out body;`;
+      query = `[out:json]; area["name"="${city}"]["boundary"="administrative"]->.city; node(area.city)["name"~"${category}",i]; out body 40;`;
     }
   } else {
     query = `[out:json]; area["name"="${city}"]["boundary"="administrative"]->.city; (
@@ -309,7 +316,7 @@ async function searchOSM(city: string, category?: string): Promise<any[]> {
       node(area.city)["tourism"];
       node(area.city)["shop"];
       node(area.city)["leisure"];
-    ); out body 50;`;
+    ); out body 40;`;
   }
   
   const encodedQuery = encodeURIComponent(query);
@@ -429,7 +436,7 @@ async function searchGeoapify(city: string, category?: string): Promise<any[]> {
     }
 
     const filter = `circle:${lon},${lat},5000`;
-    const placesUrl = `https://api.geoapify.com/v2/places?categories=${categories}&filter=${filter}&limit=50&apiKey=${apiKey}`;
+    const placesUrl = `https://api.geoapify.com/v2/places?categories=${categories}&filter=${filter}&limit=40&apiKey=${apiKey}`;
     
     const res = await fetch(placesUrl);
     const data = await res.json();
