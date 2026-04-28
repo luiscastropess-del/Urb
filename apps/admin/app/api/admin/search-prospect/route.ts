@@ -4,7 +4,6 @@ import { getProviderKey } from '@/lib/keys';
 
 // Função para buscar locais no OpenStreetMap via Overpass API
 async function searchOSM(city: string, category: string): Promise<any[]> {
-  // Mapeamento de categoria para tags OSM
   const categoryMap: Record<string, string> = {
     restaurant: 'amenity=restaurant',
     cafe: 'amenity=cafe',
@@ -15,49 +14,49 @@ async function searchOSM(city: string, category: string): Promise<any[]> {
 
   const osmTag = categoryMap[category] || 'amenity=restaurant';
   
-  // Consulta Overpass: busca pela cidade e categoria
-  const query = `
-    [out:json];
-    area["name"="${city}"]["boundary"="administrative"]->.city;
-    node(area.city)["${osmTag.split('=')[0]}"="${osmTag.split('=')[1]}"];
-    out body;
-  `;
+  const query = `[out:json]; area["name"="${city}"]["boundary"="administrative"]->.city; node(area.city)["${osmTag.split('=')[0]}"="${osmTag.split('=')[1]}"]; out body;`;
 
+  const formBody = `data=${encodeURIComponent(query)}`;
   const overpassUrl = 'https://overpass-api.de/api/interpreter';
   
-  const res = await fetch(overpassUrl, {
-    method: 'POST',
-    body: query,
-    headers: { 'Content-Type': 'text/plain' }
-  });
+  try {
+    const res = await fetch(overpassUrl, {
+      method: 'POST',
+      body: formBody,
+      headers: { 
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
 
-  if (!res.ok) {
-    console.error('Overpass API error:', res.statusText);
+    if (!res.ok) {
+      console.error('Overpass API error:', res.status, res.statusText);
+      return [];
+    }
+
+    const data = await res.json();
+    
+    const validPlaces = data.elements.filter((el: any) => 
+      el.tags?.name && 
+      el.tags?.['addr:street'] && 
+      el.tags?.['addr:city']
+    );
+
+    return validPlaces.map((el: any) => ({
+      osm_id: `osm-${el.id}`,
+      name: el.tags.name,
+      address: `${el.tags['addr:street']}, ${el.tags['addr:housenumber'] || ''} - ${el.tags['addr:city']}`,
+      phone: el.tags.phone || el.tags['contact:phone'] || null,
+      website: el.tags.website || el.tags['contact:website'] || null,
+      instagram: el.tags['contact:instagram'] || null,
+      category: category,
+      lat: el.lat,
+      lon: el.lon,
+      opening_hours: el.tags.opening_hours || null,
+    }));
+  } catch (error) {
+    console.error('Erro na busca OSM:', error);
     return [];
   }
-
-  const data = await res.json();
-  
-  // Filtra apenas locais com endereço completo (name + street + city)
-  const validPlaces = data.elements.filter((el: any) => 
-    el.tags?.name && 
-    el.tags?.['addr:street'] && 
-    el.tags?.['addr:city']
-  );
-
-  // Mapeia para o formato esperado
-  return validPlaces.map((el: any) => ({
-    osm_id: `osm-${el.id}`,
-    name: el.tags.name,
-    address: `${el.tags['addr:street']}, ${el.tags['addr:housenumber'] || ''} - ${el.tags['addr:city']}`,
-    phone: el.tags.phone || el.tags['contact:phone'] || null,
-    website: el.tags.website || el.tags['contact:website'] || null,
-    instagram: el.tags['contact:instagram'] || null,
-    category: category,
-    lat: el.lat,
-    lon: el.lon,
-    opening_hours: el.tags.opening_hours || null,
-  }));
 }
 
 // Função para enriquecer com Google Places
@@ -65,7 +64,6 @@ async function enrichWithGoogle(place: any, googleApiKey: string) {
   if (!googleApiKey) return place;
 
   try {
-    // Busca o place_id do Google pelo nome e endereço
     const searchUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(place.name + ' ' + place.address)}&key=${googleApiKey}`;
     const searchRes = await fetch(searchUrl);
     const searchData = await searchRes.json();
@@ -73,7 +71,6 @@ async function enrichWithGoogle(place: any, googleApiKey: string) {
     if (searchData.results && searchData.results.length > 0) {
       const googlePlace = searchData.results[0];
       
-      // Busca detalhes completos
       const detailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${googlePlace.place_id}&key=${googleApiKey}&language=pt-BR`;
       const detailsRes = await fetch(detailsUrl);
       const detailsData = await detailsRes.json();
@@ -145,13 +142,14 @@ export async function POST(req: Request) {
     });
     const importedIds = new Set(existing.map(e => e.googlePlaceId));
 
-    // 5. Formata a resposta
+    // 5. Formata a resposta final
     const places = enrichedPlaces.map(p => ({
       ...p,
       id: p.osm_id,
       alreadyImported: importedIds.has(p.osm_id),
     }));
 
+    console.log(`Retornando ${places.length} lugares processados.`);
     return NextResponse.json({ places });
   } catch (error: any) {
     console.error('Erro no mapeamento:', error);
@@ -159,7 +157,6 @@ export async function POST(req: Request) {
   }
 }
 
-// Mantém o GET funcionando (para o botão "Prospect")
 export async function GET() {
   return NextResponse.json({ places: [], message: 'Use POST para buscar' });
 }
