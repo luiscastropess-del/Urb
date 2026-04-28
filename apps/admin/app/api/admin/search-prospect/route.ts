@@ -121,6 +121,88 @@ async function searchOSM(city: string, category?: string): Promise<any[]> {
   return [];
 }
 
+// ==================== IBGE AGREGADOS ====================
+async function enrichWithIBGE(place: any): Promise<any> {
+  try {
+    const { getApiRouteUrl } = await import('@/lib/routes');
+    const ibgeBaseUrl = await getApiRouteUrl('IBGE_AGREGADOS', 'https://servicodados.ibge.gov.br/api/v3/agregados');
+    
+    // Se o lugar já tem CEP, busca dados por região
+    if (place.cep) {
+      const cepLimpo = place.cep.replace(/\D/g, '');
+      
+      // 1. Buscar informações do CEP
+      const cepUrl = `https://viacep.com.br/ws/${cepLimpo}/json/`;
+      const cepRes = await fetch(cepUrl);
+      const cepData = await cepRes.json();
+      
+      if (!cepData.erro) {
+        console.log(`[IBGE/ViaCEP] Dados do CEP ${cepLimpo}:`, cepData.localidade);
+        place.address = place.address || `${cepData.logradouro}, ${cepData.bairro} - ${cepData.localidade}/${cepData.uf}`;
+        place.city = place.city || cepData.localidade;
+        place.state = place.state || cepData.uf;
+        place.district = cepData.bairro;
+        place.cep = cepLimpo;
+      }
+    }
+    
+    // 2. Buscar dados do município no IBGE (se tiver cidade)
+    if (place.city) {
+      const cityName = place.city.split(',')[0].trim();
+      
+      // Busca o código do município
+      const municipiosUrl = `https://servicodados.ibge.gov.br/api/v1/localidades/municipios?nome=${encodeURIComponent(cityName)}`;
+      const munRes = await fetch(municipiosUrl);
+      const munData = await munRes.json();
+      
+      if (munData && munData.length > 0) {
+        const municipio = munData[0];
+        console.log(`[IBGE] Município encontrado: ${municipio.nome} (${municipio.id})`);
+        
+        place.city = place.city || municipio.nome;
+        place.state = place.state || municipio.microrregiao?.mesorregiao?.UF?.sigla;
+        
+        // 3. Buscar dados estatísticos do município (CNAE, empresas, etc.)
+        // Exemplo: Cadastro Central de Empresas (CEMPRE)
+        const cemmpreUrl = `https://servicodados.ibge.gov.br/api/v2/cnae/classes?municipio=${municipio.id}`;
+        const cnaeRes = await fetch(cemmpreUrl);
+        const cnaeData = await cnaeRes.json();
+        
+        // Mapeamento de CNAE para categorias do sistema
+        const cnaeCategoryMap: Record<string, string> = {
+          '5611-2': 'restaurant',
+          '5611-2/01': 'restaurant',
+          '5611-2/03': 'restaurant',
+          '5612-1': 'cafe',
+          '5510-8': 'hotel',
+          '5510-8/01': 'hotel',
+          '5510-8/02': 'hotel',
+        };
+        
+        // Se a categoria do lugar bater com algum CNAE, enriquece
+        if (cnaeData && cnaeData.length > 0) {
+          const relevantCnae = cnaeData.find((c: any) => {
+            const classe = c.classe || c.id;
+            return Object.keys(cnaeCategoryMap).some(code => classe?.includes(code));
+          });
+          
+          if (relevantCnae) {
+            place.category = cnaeCategoryMap[relevantCnae.id] || place.category;
+            place.type = cnaeCategoryMap[relevantCnae.id] || place.type;
+            console.log(`[IBGE] Categoria mapeada via CNAE: ${place.category}`);
+          }
+        }
+      }
+    }
+    
+    console.log(`[IBGE] Enriquecimento concluído para: ${place.name}`);
+  } catch (error: any) {
+    console.error(`[IBGE] Erro ao enriquecer:`, error.message);
+  }
+  
+  return place;
+}
+
 // ==================== GEOAPIFY ====================
 async function searchGeoapify(city: string, category?: string): Promise<any[]> {
   const apiKey = await getProviderKey('GEOAPIFY_API');
@@ -345,6 +427,10 @@ export async function POST(req: Request) {
       console.log('✨ Enriqueceu com Google Places...');
       places = await Promise.all(places.map(p => enrichWithGoogle(p, googleApiKey)));
     }
+
+    // Enriquece com dados do IBGE (via CEP e CNAE)
+console.log('📊 Enriquecendo com dados do IBGE...');
+places = await Promise.all(places.map(p => enrichWithIBGE(p)));
 
     // Verifica duplicatas
     const osmIds = places.map(p => p.osm_id);
