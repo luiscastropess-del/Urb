@@ -1,4 +1,4 @@
-import { db } from "./prisma";
+import { db } from '@urb/shared';
 
 export async function getApiRouteUrl(name: string, fallbackUrl: string): Promise<string> {
   try {

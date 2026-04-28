@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/prisma';
+import { db } from '@urb/shared';
 
 // Endpoint para integração com o painel admin externo (adm-urbano.onrender.com)
 // Permite listar perfis de guias locais (destacando assinatura gratuita)

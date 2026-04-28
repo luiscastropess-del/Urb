@@ -1,0 +1,42 @@
+services:
+  - type: web
+    name: urb-web
+    runtime: node
+    region: oregon
+    plan: free
+    rootDir: apps/web
+    buildCommand: pnpm install --frozen-lockfile && pnpm --filter @urb/shared run prisma:generate && pnpm build
+    startCommand: pnpm start
+    envVars:
+      - key: DATABASE_URL
+        value: sua_url_postgres_aqui
+      - key: NODE_ENV
+        value: production
+
+  - type: web
+    name: urb-admin
+    runtime: node
+    region: oregon
+    plan: free
+    rootDir: apps/admin
+    buildCommand: pnpm install --frozen-lockfile && pnpm --filter @urb/shared run prisma:generate && pnpm build
+    startCommand: pnpm start
+    envVars:
+      - key: DATABASE_URL
+        value: sua_url_postgres_aqui
+      - key: NODE_ENV
+        value: production
+
+  - type: web
+    name: urb-guia
+    runtime: node
+    region: oregon
+    plan: free
+    rootDir: apps/guia
+    buildCommand: pnpm install --frozen-lockfile && pnpm --filter @urb/shared run prisma:generate && pnpm build
+    startCommand: pnpm start
+    envVars:
+      - key: DATABASE_URL
+        value: postgresql://neondb_owner:npg_4VnpHNf2uyFl@ep-hidden-bonus-ams71j2t-pooler.c-5.us-east-1.aws.neon.tech/urbano_holambra?sslmode=require&channel_binding=requirepostgresql://neondb_owner:npg_4VnpHNf2uyFl@ep-hidden-bonus-ams71j2t-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+      - key: NODE_ENV
+        value: production

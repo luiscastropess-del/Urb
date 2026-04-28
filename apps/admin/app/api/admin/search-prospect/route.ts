@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/prisma';
+import { db } from '@urb/shared';
 import { getApiRouteUrl } from '@/lib/routes';
 
 export async function POST(req: Request) {

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/prisma';
+import { db } from '@urb/shared';
 import { extractCityFromAddress } from '@/lib/utils';
 
 // Revalidar sempre no Vercel/Next.js para evitar cache no endpoint de cron

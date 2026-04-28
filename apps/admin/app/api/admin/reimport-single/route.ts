@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getPlaceDetails, downloadAndUploadPhoto } from '@/lib/places-api';
-import { db } from '@/lib/prisma';
+import { db } from '@urb/shared';
 
 export async function POST(req: Request) {
   try {

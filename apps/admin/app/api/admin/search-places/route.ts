@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { geocodeCity, searchNearbyPlaces } from '@/lib/places-api';
-import { db } from '@/lib/prisma';
+import { db } from '@urb/shared';
 
 export async function POST(req: Request) {
   try {

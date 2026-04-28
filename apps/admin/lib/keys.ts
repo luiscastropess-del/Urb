@@ -1,4 +1,4 @@
-import { db } from "./prisma";
+import { db } from '@urb/shared';
 
 export async function getProviderKey(provider: string): Promise<string | undefined> {
   const apiKey = await db.apiKey.findUnique({

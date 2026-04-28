@@ -30,7 +30,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   db: () => (/* reexport safe */ _prisma__WEBPACK_IMPORTED_MODULE_0__.prisma),\n/* harmony export */   prisma: () => (/* reexport safe */ _prisma__WEBPACK_IMPORTED_MODULE_0__.prisma),\n/* harmony export */   useMobile: () => (/* reexport safe */ _utils_use_mobile__WEBPACK_IMPORTED_MODULE_1__.useIsMobile)\n/* harmony export */ });\n/* harmony import */ var _prisma__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./prisma */ \"(action-browser)/../../packages/shared/src/prisma.ts\");\n/* harmony import */ var _utils_use_mobile__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/use-mobile */ \"(action-browser)/../../packages/shared/src/utils/use-mobile.ts\");\n\n // alias para \"db\"\n // compatibilidade\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFjdGlvbi1icm93c2VyKS8uLi8uLi9wYWNrYWdlcy9zaGFyZWQvc3JjL2luZGV4LnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7O0FBQWtDO0FBQ00sQ0FBVyxrQkFBa0I7QUFFUCxDQUFDLGtCQUFrQiIsInNvdXJjZXMiOlsiL2RhdGEvZGF0YS9jb20udGVybXV4L2ZpbGVzL2hvbWUvVXJiL3BhY2thZ2VzL3NoYXJlZC9zcmMvaW5kZXgudHMiXSwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0IHsgcHJpc21hIH0gZnJvbSAnLi9wcmlzbWEnO1xuZXhwb3J0IHsgcHJpc21hIGFzIGRiIH0gZnJvbSAnLi9wcmlzbWEnOyAgICAgICAgICAgLy8gYWxpYXMgcGFyYSBcImRiXCJcblxuZXhwb3J0IHsgdXNlSXNNb2JpbGUgYXMgdXNlTW9iaWxlIH0gZnJvbSAnLi91dGlscy91c2UtbW9iaWxlJzsgLy8gY29tcGF0aWJpbGlkYWRlXG4iXSwibmFtZXMiOlsicHJpc21hIiwiZGIiLCJ1c2VJc01vYmlsZSIsInVzZU1vYmlsZSJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(action-browser)/../../packages/shared/src/index.ts\n");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   db: () => (/* reexport safe */ _prisma__WEBPACK_IMPORTED_MODULE_0__.prisma),\n/* harmony export */   prisma: () => (/* reexport safe */ _prisma__WEBPACK_IMPORTED_MODULE_0__.prisma),\n/* harmony export */   useMobile: () => (/* reexport safe */ _utils_use_mobile__WEBPACK_IMPORTED_MODULE_1__.useIsMobile)\n/* harmony export */ });\n/* harmony import */ var _prisma__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./prisma */ \"(action-browser)/../../packages/shared/src/prisma.ts\");\n/* harmony import */ var _utils_use_mobile__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/use-mobile */ \"(action-browser)/../../packages/shared/src/utils/use-mobile.ts\");\n\n\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFjdGlvbi1icm93c2VyKS8uLi8uLi9wYWNrYWdlcy9zaGFyZWQvc3JjL2luZGV4LnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7O0FBQWdEO0FBQ2MiLCJzb3VyY2VzIjpbIi9kYXRhL2RhdGEvY29tLnRlcm11eC9maWxlcy9ob21lL1VyYi9wYWNrYWdlcy9zaGFyZWQvc3JjL2luZGV4LnRzIl0sInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCB7IHByaXNtYSwgcHJpc21hIGFzIGRiIH0gZnJvbSAnLi9wcmlzbWEnO1xuZXhwb3J0IHsgdXNlSXNNb2JpbGUgYXMgdXNlTW9iaWxlIH0gZnJvbSAnLi91dGlscy91c2UtbW9iaWxlJztcbiJdLCJuYW1lcyI6WyJwcmlzbWEiLCJkYiIsInVzZUlzTW9iaWxlIiwidXNlTW9iaWxlIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///(action-browser)/../../packages/shared/src/index.ts\n");
 
 /***/ }),
 
@@ -41,7 +41,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   prisma: () => (/* binding */ prisma)\n/* harmony export */ });\n/* harmony import */ var _prisma_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @prisma/client */ \"(action-browser)/../../node_modules/.pnpm/@prisma+client@5.22.0_prisma@5.22.0/node_modules/@prisma/client/default.js\");\n/* harmony import */ var _prisma_client__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_prisma_client__WEBPACK_IMPORTED_MODULE_0__);\n\nconst globalForPrisma = globalThis;\nconst prisma = globalForPrisma.prisma || new _prisma_client__WEBPACK_IMPORTED_MODULE_0__.PrismaClient();\nif (true) globalForPrisma.prisma = prisma;\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFjdGlvbi1icm93c2VyKS8uLi8uLi9wYWNrYWdlcy9zaGFyZWQvc3JjL3ByaXNtYS50cyIsIm1hcHBpbmdzIjoiOzs7Ozs7QUFBOEM7QUFFOUMsTUFBTUMsa0JBQWtCQztBQUVqQixNQUFNQyxTQUNYRixnQkFBZ0JFLE1BQU0sSUFBSSxJQUFJSCx3REFBWUEsR0FBRztBQUUvQyxJQUFJSSxJQUFxQyxFQUFFSCxnQkFBZ0JFLE1BQU0sR0FBR0EiLCJzb3VyY2VzIjpbIi9kYXRhL2RhdGEvY29tLnRlcm11eC9maWxlcy9ob21lL1VyYi9wYWNrYWdlcy9zaGFyZWQvc3JjL3ByaXNtYS50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBQcmlzbWFDbGllbnQgfSBmcm9tICdAcHJpc21hL2NsaWVudCc7XG5cbmNvbnN0IGdsb2JhbEZvclByaXNtYSA9IGdsb2JhbFRoaXMgYXMgdW5rbm93biBhcyB7IHByaXNtYTogUHJpc21hQ2xpZW50IH07XG5cbmV4cG9ydCBjb25zdCBwcmlzbWEgPVxuICBnbG9iYWxGb3JQcmlzbWEucHJpc21hIHx8IG5ldyBQcmlzbWFDbGllbnQoKTtcblxuaWYgKHByb2Nlc3MuZW52Lk5PREVfRU5WICE9PSAncHJvZHVjdGlvbicpIGdsb2JhbEZvclByaXNtYS5wcmlzbWEgPSBwcmlzbWE7XG4iXSwibmFtZXMiOlsiUHJpc21hQ2xpZW50IiwiZ2xvYmFsRm9yUHJpc21hIiwiZ2xvYmFsVGhpcyIsInByaXNtYSIsInByb2Nlc3MiLCJlbnYiLCJOT0RFX0VOViJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(action-browser)/../../packages/shared/src/prisma.ts\n");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   db: () => (/* binding */ prisma),\n/* harmony export */   prisma: () => (/* binding */ prisma)\n/* harmony export */ });\n/* harmony import */ var _prisma_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @prisma/client */ \"@prisma/client\");\n/* harmony import */ var _prisma_client__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_prisma_client__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _prisma_adapter_pg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @prisma/adapter-pg */ \"(action-browser)/../../node_modules/.pnpm/@prisma+adapter-pg@7.8.0/node_modules/@prisma/adapter-pg/dist/index.mjs\");\n/* harmony import */ var pg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! pg */ \"(action-browser)/../../node_modules/.pnpm/pg@8.20.0/node_modules/pg/esm/index.mjs\");\n\n\n\nconst connectionString = process.env.DATABASE_URL;\nconst pool = new pg__WEBPACK_IMPORTED_MODULE_1__.Pool({\n    connectionString\n});\nconst adapter = new _prisma_adapter_pg__WEBPACK_IMPORTED_MODULE_2__.PrismaPg(pool);\nconst prisma = new _prisma_client__WEBPACK_IMPORTED_MODULE_0__.PrismaClient({\n    adapter\n});\n\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFjdGlvbi1icm93c2VyKS8uLi8uLi9wYWNrYWdlcy9zaGFyZWQvc3JjL3ByaXNtYS50cyIsIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7QUFBOEM7QUFDQTtBQUNwQjtBQUUxQixNQUFNRyxtQkFBbUJDLFFBQVFDLEdBQUcsQ0FBQ0MsWUFBWTtBQUVqRCxNQUFNQyxPQUFPLElBQUlMLG9DQUFJQSxDQUFDO0lBQUVDO0FBQWlCO0FBQ3pDLE1BQU1LLFVBQVUsSUFBSVAsd0RBQVFBLENBQUNNO0FBRXRCLE1BQU1FLFNBQVMsSUFBSVQsd0RBQVlBLENBQUM7SUFBRVE7QUFBUSxHQUFHO0FBQzVCIiwic291cmNlcyI6WyIvZGF0YS9kYXRhL2NvbS50ZXJtdXgvZmlsZXMvaG9tZS9VcmIvcGFja2FnZXMvc2hhcmVkL3NyYy9wcmlzbWEudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgUHJpc21hQ2xpZW50IH0gZnJvbSAnQHByaXNtYS9jbGllbnQnO1xuaW1wb3J0IHsgUHJpc21hUGcgfSBmcm9tICdAcHJpc21hL2FkYXB0ZXItcGcnO1xuaW1wb3J0IHsgUG9vbCB9IGZyb20gJ3BnJztcblxuY29uc3QgY29ubmVjdGlvblN0cmluZyA9IHByb2Nlc3MuZW52LkRBVEFCQVNFX1VSTCE7XG5cbmNvbnN0IHBvb2wgPSBuZXcgUG9vbCh7IGNvbm5lY3Rpb25TdHJpbmcgfSk7XG5jb25zdCBhZGFwdGVyID0gbmV3IFByaXNtYVBnKHBvb2wpO1xuXG5leHBvcnQgY29uc3QgcHJpc21hID0gbmV3IFByaXNtYUNsaWVudCh7IGFkYXB0ZXIgfSk7XG5leHBvcnQgeyBwcmlzbWEgYXMgZGIgfTtcbiJdLCJuYW1lcyI6WyJQcmlzbWFDbGllbnQiLCJQcmlzbWFQZyIsIlBvb2wiLCJjb25uZWN0aW9uU3RyaW5nIiwicHJvY2VzcyIsImVudiIsIkRBVEFCQVNFX1VSTCIsInBvb2wiLCJhZGFwdGVyIiwicHJpc21hIiwiZGIiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///(action-browser)/../../packages/shared/src/prisma.ts\n");
 
 /***/ }),
 
@@ -259,25 +259,24 @@ module.exports = require("next/dist/server/app-render/work-unit-async-storage.ex
 
 /***/ }),
 
-/***/ "async_hooks":
-/*!******************************!*\
-  !*** external "async_hooks" ***!
-  \******************************/
-/***/ ((module) => {
+/***/ "?b44a":
+/*!***************************!*\
+  !*** pg-native (ignored) ***!
+  \***************************/
+/***/ (() => {
 
-"use strict";
-module.exports = require("async_hooks");
+/* (ignored) */
 
 /***/ }),
 
-/***/ "child_process":
-/*!********************************!*\
-  !*** external "child_process" ***!
-  \********************************/
+/***/ "@prisma/client":
+/*!*********************************!*\
+  !*** external "@prisma/client" ***!
+  \*********************************/
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("child_process");
+module.exports = require("@prisma/client");
 
 /***/ }),
 
@@ -289,6 +288,17 @@ module.exports = require("child_process");
 
 "use strict";
 module.exports = require("crypto");
+
+/***/ }),
+
+/***/ "dns":
+/*!**********************!*\
+  !*** external "dns" ***!
+  \**********************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("dns");
 
 /***/ }),
 
@@ -314,17 +324,6 @@ module.exports = require("fs");
 
 /***/ }),
 
-/***/ "fs/promises":
-/*!******************************!*\
-  !*** external "fs/promises" ***!
-  \******************************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("fs/promises");
-
-/***/ }),
-
 /***/ "module":
 /*!*************************!*\
   !*** external "module" ***!
@@ -333,6 +332,17 @@ module.exports = require("fs/promises");
 
 "use strict";
 module.exports = require("module");
+
+/***/ }),
+
+/***/ "net":
+/*!**********************!*\
+  !*** external "net" ***!
+  \**********************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("net");
 
 /***/ }),
 
@@ -380,17 +390,6 @@ module.exports = require("next/dist/shared/lib/router/utils/is-bot");
 
 /***/ }),
 
-/***/ "os":
-/*!*********************!*\
-  !*** external "os" ***!
-  \*********************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("os");
-
-/***/ }),
-
 /***/ "path":
 /*!***********************!*\
   !*** external "path" ***!
@@ -402,14 +401,36 @@ module.exports = require("path");
 
 /***/ }),
 
-/***/ "tty":
+/***/ "stream":
+/*!*************************!*\
+  !*** external "stream" ***!
+  \*************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("stream");
+
+/***/ }),
+
+/***/ "string_decoder":
+/*!*********************************!*\
+  !*** external "string_decoder" ***!
+  \*********************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("string_decoder");
+
+/***/ }),
+
+/***/ "tls":
 /*!**********************!*\
-  !*** external "tty" ***!
+  !*** external "tls" ***!
   \**********************/
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("tty");
+module.exports = require("tls");
 
 /***/ }),
 
@@ -431,7 +452,7 @@ module.exports = require("util");
 var __webpack_require__ = require("../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, ["vendor-chunks/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5","vendor-chunks/@opentelemetry+api@1.9.1","vendor-chunks/@swc+helpers@0.5.15","vendor-chunks/@prisma+client@5.22.0_prisma@5.22.0","vendor-chunks/lucide-react@0.553.0_react@19.2.5","vendor-chunks/jose@6.2.3","vendor-chunks/bcryptjs@3.0.3"], () => (__webpack_exec__("(rsc)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-app-loader/index.js?name=app%2Flogin%2Fpage&page=%2Flogin%2Fpage&appPaths=%2Flogin%2Fpage&pagePath=private-next-app-dir%2Flogin%2Fpage.tsx&appDir=%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb&isDev=true&tsconfigPath=tsconfig.json&basePath=&assetPrefix=&nextConfigOutput=standalone&preferredRegion=&middlewareConfig=e30%3D&isGlobalNotFoundEnabled=!")));
+var __webpack_exports__ = __webpack_require__.X(0, ["vendor-chunks/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5","vendor-chunks/@opentelemetry+api@1.9.1","vendor-chunks/jose@6.2.3","vendor-chunks/pg@8.20.0","vendor-chunks/lucide-react@0.553.0_react@19.2.5","vendor-chunks/pg-protocol@1.13.0","vendor-chunks/pg-types@2.2.0","vendor-chunks/@swc+helpers@0.5.15","vendor-chunks/pgpass@1.0.5","vendor-chunks/bcryptjs@3.0.3","vendor-chunks/@prisma+driver-adapter-utils@7.8.0","vendor-chunks/@prisma+debug@7.8.0","vendor-chunks/@prisma+adapter-pg@7.8.0","vendor-chunks/xtend@4.0.2","vendor-chunks/split2@4.2.0","vendor-chunks/postgres-interval@1.2.0","vendor-chunks/postgres-date@1.0.7","vendor-chunks/postgres-bytea@1.0.1","vendor-chunks/postgres-array@3.0.4","vendor-chunks/postgres-array@2.0.0","vendor-chunks/pg-pool@3.13.0_pg@8.20.0","vendor-chunks/pg-int8@1.0.1","vendor-chunks/pg-connection-string@2.12.0","vendor-chunks/pg-cloudflare@1.3.0"], () => (__webpack_exec__("(rsc)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-app-loader/index.js?name=app%2Flogin%2Fpage&page=%2Flogin%2Fpage&appPaths=%2Flogin%2Fpage&pagePath=private-next-app-dir%2Flogin%2Fpage.tsx&appDir=%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb&isDev=true&tsconfigPath=tsconfig.json&basePath=&assetPrefix=&nextConfigOutput=standalone&preferredRegion=&middlewareConfig=e30%3D&isGlobalNotFoundEnabled=!")));
 module.exports = __webpack_exports__;
 
 })();

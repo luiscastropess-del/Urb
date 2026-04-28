@@ -9,6 +9,7 @@
     "clean": "pnpm -r run clean"
   },
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "concurrently": "^9.2.1",
+    "dotenv-cli": "^11.0.0"
   }
 }

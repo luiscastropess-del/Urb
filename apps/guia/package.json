@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3002",
-    "build": "npx prisma generate && next build",
+    "build": "pnpm --filter @urb/shared run prisma:generate && next build",
     "start": "next start",
     "lint": "eslint .",
     "clean": "next clean"
@@ -13,7 +13,7 @@
     "@google/genai": "^1.17.0",
     "@google/generative-ai": "^0.24.1",
     "@hookform/resolvers": "^5.2.1",
-    "@prisma/client": "^6.4.1",
+    "@prisma/client": "^6.19.3",
     "@supabase/supabase-js": "^2.105.0",
     "@urb/shared": "workspace:*",
     "@urb/ui": "workspace:*",
@@ -48,7 +48,7 @@
     "eslint": "9.39.1",
     "eslint-config-next": "16.0.8",
     "firebase-tools": "^15.0.0",
-    "prisma": "^6.4.1",
+    "prisma": "^6.19.3",
     "tsx": "^4.21.0",
     "typescript": "5.9.3"
   }

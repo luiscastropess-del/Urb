@@ -1,4 +1,4 @@
-import { db } from './prisma';
+import { db } from '@urb/shared';
 import { uploadImageToGitHub } from './github-storage';
 
 export async function searchOverpass(city: string, category: string) {

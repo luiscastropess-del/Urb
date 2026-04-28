@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/prisma';
+import { db } from '@urb/shared';
 import { searchPlaceByText, getPlaceDetails } from '@/lib/places-api';
 import { GoogleGenAI } from '@google/genai';
 

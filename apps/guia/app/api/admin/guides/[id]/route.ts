@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/prisma';
+import { db } from '@urb/shared';
 
 // PUT: Atualiza as configurações de um Guia/Usuário
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {

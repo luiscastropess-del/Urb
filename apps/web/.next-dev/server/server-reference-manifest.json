@@ -1,135 +1,13 @@
 {
   "node": {
-    "0065cd0a7a1213b2083ee9425865a04508adeb50b6": {
-      "workers": {
-        "app/(main)/pacotes/page": {
-          "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.tours.ts%22%2C%5B%7B%22id%22%3A%220065cd0a7a1213b2083ee9425865a04508adeb50b6%22%2C%22exportedName%22%3A%22getFeaturedGuides%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200a002fec73d00a6325e25d09811aec28ac8382096%22%2C%22exportedName%22%3A%22getGuides%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200acf326f2acc042180a6a5a108b76b67ba6fdb823%22%2C%22exportedName%22%3A%22getPremiumPackages%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200b4c06bb16a36e50513a6dcb87b91f4aac6a60aea%22%2C%22exportedName%22%3A%22getFeaturedCities%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200c6f6685f2d98a8651ef3cd586b4e6a969695d830%22%2C%22exportedName%22%3A%22getPublicPackages%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%224044a7779d07d60fc21aafb53f9c91f0d0c3a5b472%22%2C%22exportedName%22%3A%22getPublicPackage%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%22405ee0a72b545b8720559964e0a082a056d468664c%22%2C%22exportedName%22%3A%22getCity%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%22407344d60346501bef24ffa8253a2db898160b7475%22%2C%22exportedName%22%3A%22getGuide%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2260696164a30f1b0c2670d78e8c218fe300bf73d4c7%22%2C%22exportedName%22%3A%22getRouteUrl%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%5D%5D%5D&__client_imported__=true!",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/(main)/pacotes/page": "action-browser"
-      },
-      "filename": "app/actions.tours.ts",
-      "exportedName": "getFeaturedGuides"
-    },
-    "00a002fec73d00a6325e25d09811aec28ac8382096": {
-      "workers": {
-        "app/(main)/pacotes/page": {
-          "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.tours.ts%22%2C%5B%7B%22id%22%3A%220065cd0a7a1213b2083ee9425865a04508adeb50b6%22%2C%22exportedName%22%3A%22getFeaturedGuides%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200a002fec73d00a6325e25d09811aec28ac8382096%22%2C%22exportedName%22%3A%22getGuides%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200acf326f2acc042180a6a5a108b76b67ba6fdb823%22%2C%22exportedName%22%3A%22getPremiumPackages%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200b4c06bb16a36e50513a6dcb87b91f4aac6a60aea%22%2C%22exportedName%22%3A%22getFeaturedCities%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200c6f6685f2d98a8651ef3cd586b4e6a969695d830%22%2C%22exportedName%22%3A%22getPublicPackages%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%224044a7779d07d60fc21aafb53f9c91f0d0c3a5b472%22%2C%22exportedName%22%3A%22getPublicPackage%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%22405ee0a72b545b8720559964e0a082a056d468664c%22%2C%22exportedName%22%3A%22getCity%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%22407344d60346501bef24ffa8253a2db898160b7475%22%2C%22exportedName%22%3A%22getGuide%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2260696164a30f1b0c2670d78e8c218fe300bf73d4c7%22%2C%22exportedName%22%3A%22getRouteUrl%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%5D%5D%5D&__client_imported__=true!",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/(main)/pacotes/page": "action-browser"
-      },
-      "filename": "app/actions.tours.ts",
-      "exportedName": "getGuides"
-    },
-    "00acf326f2acc042180a6a5a108b76b67ba6fdb823": {
-      "workers": {
-        "app/(main)/pacotes/page": {
-          "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.tours.ts%22%2C%5B%7B%22id%22%3A%220065cd0a7a1213b2083ee9425865a04508adeb50b6%22%2C%22exportedName%22%3A%22getFeaturedGuides%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200a002fec73d00a6325e25d09811aec28ac8382096%22%2C%22exportedName%22%3A%22getGuides%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200acf326f2acc042180a6a5a108b76b67ba6fdb823%22%2C%22exportedName%22%3A%22getPremiumPackages%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200b4c06bb16a36e50513a6dcb87b91f4aac6a60aea%22%2C%22exportedName%22%3A%22getFeaturedCities%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200c6f6685f2d98a8651ef3cd586b4e6a969695d830%22%2C%22exportedName%22%3A%22getPublicPackages%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%224044a7779d07d60fc21aafb53f9c91f0d0c3a5b472%22%2C%22exportedName%22%3A%22getPublicPackage%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%22405ee0a72b545b8720559964e0a082a056d468664c%22%2C%22exportedName%22%3A%22getCity%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%22407344d60346501bef24ffa8253a2db898160b7475%22%2C%22exportedName%22%3A%22getGuide%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2260696164a30f1b0c2670d78e8c218fe300bf73d4c7%22%2C%22exportedName%22%3A%22getRouteUrl%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%5D%5D%5D&__client_imported__=true!",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/(main)/pacotes/page": "action-browser"
-      },
-      "filename": "app/actions.tours.ts",
-      "exportedName": "getPremiumPackages"
-    },
-    "00b4c06bb16a36e50513a6dcb87b91f4aac6a60aea": {
-      "workers": {
-        "app/(main)/pacotes/page": {
-          "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.tours.ts%22%2C%5B%7B%22id%22%3A%220065cd0a7a1213b2083ee9425865a04508adeb50b6%22%2C%22exportedName%22%3A%22getFeaturedGuides%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200a002fec73d00a6325e25d09811aec28ac8382096%22%2C%22exportedName%22%3A%22getGuides%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200acf326f2acc042180a6a5a108b76b67ba6fdb823%22%2C%22exportedName%22%3A%22getPremiumPackages%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200b4c06bb16a36e50513a6dcb87b91f4aac6a60aea%22%2C%22exportedName%22%3A%22getFeaturedCities%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200c6f6685f2d98a8651ef3cd586b4e6a969695d830%22%2C%22exportedName%22%3A%22getPublicPackages%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%224044a7779d07d60fc21aafb53f9c91f0d0c3a5b472%22%2C%22exportedName%22%3A%22getPublicPackage%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%22405ee0a72b545b8720559964e0a082a056d468664c%22%2C%22exportedName%22%3A%22getCity%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%22407344d60346501bef24ffa8253a2db898160b7475%22%2C%22exportedName%22%3A%22getGuide%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2260696164a30f1b0c2670d78e8c218fe300bf73d4c7%22%2C%22exportedName%22%3A%22getRouteUrl%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%5D%5D%5D&__client_imported__=true!",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/(main)/pacotes/page": "action-browser"
-      },
-      "filename": "app/actions.tours.ts",
-      "exportedName": "getFeaturedCities"
-    },
-    "00c6f6685f2d98a8651ef3cd586b4e6a969695d830": {
-      "workers": {
-        "app/(main)/pacotes/page": {
-          "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.tours.ts%22%2C%5B%7B%22id%22%3A%220065cd0a7a1213b2083ee9425865a04508adeb50b6%22%2C%22exportedName%22%3A%22getFeaturedGuides%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200a002fec73d00a6325e25d09811aec28ac8382096%22%2C%22exportedName%22%3A%22getGuides%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200acf326f2acc042180a6a5a108b76b67ba6fdb823%22%2C%22exportedName%22%3A%22getPremiumPackages%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200b4c06bb16a36e50513a6dcb87b91f4aac6a60aea%22%2C%22exportedName%22%3A%22getFeaturedCities%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200c6f6685f2d98a8651ef3cd586b4e6a969695d830%22%2C%22exportedName%22%3A%22getPublicPackages%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%224044a7779d07d60fc21aafb53f9c91f0d0c3a5b472%22%2C%22exportedName%22%3A%22getPublicPackage%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%22405ee0a72b545b8720559964e0a082a056d468664c%22%2C%22exportedName%22%3A%22getCity%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%22407344d60346501bef24ffa8253a2db898160b7475%22%2C%22exportedName%22%3A%22getGuide%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2260696164a30f1b0c2670d78e8c218fe300bf73d4c7%22%2C%22exportedName%22%3A%22getRouteUrl%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%5D%5D%5D&__client_imported__=true!",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/(main)/pacotes/page": "action-browser"
-      },
-      "filename": "app/actions.tours.ts",
-      "exportedName": "getPublicPackages"
-    },
-    "4044a7779d07d60fc21aafb53f9c91f0d0c3a5b472": {
-      "workers": {
-        "app/(main)/pacotes/page": {
-          "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.tours.ts%22%2C%5B%7B%22id%22%3A%220065cd0a7a1213b2083ee9425865a04508adeb50b6%22%2C%22exportedName%22%3A%22getFeaturedGuides%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200a002fec73d00a6325e25d09811aec28ac8382096%22%2C%22exportedName%22%3A%22getGuides%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200acf326f2acc042180a6a5a108b76b67ba6fdb823%22%2C%22exportedName%22%3A%22getPremiumPackages%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200b4c06bb16a36e50513a6dcb87b91f4aac6a60aea%22%2C%22exportedName%22%3A%22getFeaturedCities%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200c6f6685f2d98a8651ef3cd586b4e6a969695d830%22%2C%22exportedName%22%3A%22getPublicPackages%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%224044a7779d07d60fc21aafb53f9c91f0d0c3a5b472%22%2C%22exportedName%22%3A%22getPublicPackage%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%22405ee0a72b545b8720559964e0a082a056d468664c%22%2C%22exportedName%22%3A%22getCity%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%22407344d60346501bef24ffa8253a2db898160b7475%22%2C%22exportedName%22%3A%22getGuide%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2260696164a30f1b0c2670d78e8c218fe300bf73d4c7%22%2C%22exportedName%22%3A%22getRouteUrl%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%5D%5D%5D&__client_imported__=true!",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/(main)/pacotes/page": "action-browser"
-      },
-      "filename": "app/actions.tours.ts",
-      "exportedName": "getPublicPackage"
-    },
-    "405ee0a72b545b8720559964e0a082a056d468664c": {
-      "workers": {
-        "app/(main)/pacotes/page": {
-          "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.tours.ts%22%2C%5B%7B%22id%22%3A%220065cd0a7a1213b2083ee9425865a04508adeb50b6%22%2C%22exportedName%22%3A%22getFeaturedGuides%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200a002fec73d00a6325e25d09811aec28ac8382096%22%2C%22exportedName%22%3A%22getGuides%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200acf326f2acc042180a6a5a108b76b67ba6fdb823%22%2C%22exportedName%22%3A%22getPremiumPackages%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200b4c06bb16a36e50513a6dcb87b91f4aac6a60aea%22%2C%22exportedName%22%3A%22getFeaturedCities%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200c6f6685f2d98a8651ef3cd586b4e6a969695d830%22%2C%22exportedName%22%3A%22getPublicPackages%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%224044a7779d07d60fc21aafb53f9c91f0d0c3a5b472%22%2C%22exportedName%22%3A%22getPublicPackage%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%22405ee0a72b545b8720559964e0a082a056d468664c%22%2C%22exportedName%22%3A%22getCity%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%22407344d60346501bef24ffa8253a2db898160b7475%22%2C%22exportedName%22%3A%22getGuide%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2260696164a30f1b0c2670d78e8c218fe300bf73d4c7%22%2C%22exportedName%22%3A%22getRouteUrl%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%5D%5D%5D&__client_imported__=true!",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/(main)/pacotes/page": "action-browser"
-      },
-      "filename": "app/actions.tours.ts",
-      "exportedName": "getCity"
-    },
-    "407344d60346501bef24ffa8253a2db898160b7475": {
-      "workers": {
-        "app/(main)/pacotes/page": {
-          "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.tours.ts%22%2C%5B%7B%22id%22%3A%220065cd0a7a1213b2083ee9425865a04508adeb50b6%22%2C%22exportedName%22%3A%22getFeaturedGuides%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200a002fec73d00a6325e25d09811aec28ac8382096%22%2C%22exportedName%22%3A%22getGuides%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200acf326f2acc042180a6a5a108b76b67ba6fdb823%22%2C%22exportedName%22%3A%22getPremiumPackages%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200b4c06bb16a36e50513a6dcb87b91f4aac6a60aea%22%2C%22exportedName%22%3A%22getFeaturedCities%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200c6f6685f2d98a8651ef3cd586b4e6a969695d830%22%2C%22exportedName%22%3A%22getPublicPackages%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%224044a7779d07d60fc21aafb53f9c91f0d0c3a5b472%22%2C%22exportedName%22%3A%22getPublicPackage%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%22405ee0a72b545b8720559964e0a082a056d468664c%22%2C%22exportedName%22%3A%22getCity%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%22407344d60346501bef24ffa8253a2db898160b7475%22%2C%22exportedName%22%3A%22getGuide%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2260696164a30f1b0c2670d78e8c218fe300bf73d4c7%22%2C%22exportedName%22%3A%22getRouteUrl%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%5D%5D%5D&__client_imported__=true!",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/(main)/pacotes/page": "action-browser"
-      },
-      "filename": "app/actions.tours.ts",
-      "exportedName": "getGuide"
-    },
-    "60696164a30f1b0c2670d78e8c218fe300bf73d4c7": {
-      "workers": {
-        "app/(main)/pacotes/page": {
-          "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.tours.ts%22%2C%5B%7B%22id%22%3A%220065cd0a7a1213b2083ee9425865a04508adeb50b6%22%2C%22exportedName%22%3A%22getFeaturedGuides%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200a002fec73d00a6325e25d09811aec28ac8382096%22%2C%22exportedName%22%3A%22getGuides%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200acf326f2acc042180a6a5a108b76b67ba6fdb823%22%2C%22exportedName%22%3A%22getPremiumPackages%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200b4c06bb16a36e50513a6dcb87b91f4aac6a60aea%22%2C%22exportedName%22%3A%22getFeaturedCities%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2200c6f6685f2d98a8651ef3cd586b4e6a969695d830%22%2C%22exportedName%22%3A%22getPublicPackages%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%224044a7779d07d60fc21aafb53f9c91f0d0c3a5b472%22%2C%22exportedName%22%3A%22getPublicPackage%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%22405ee0a72b545b8720559964e0a082a056d468664c%22%2C%22exportedName%22%3A%22getCity%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%22407344d60346501bef24ffa8253a2db898160b7475%22%2C%22exportedName%22%3A%22getGuide%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%2C%7B%22id%22%3A%2260696164a30f1b0c2670d78e8c218fe300bf73d4c7%22%2C%22exportedName%22%3A%22getRouteUrl%22%2C%22filename%22%3A%22app%2Factions.tours.ts%22%7D%5D%5D%5D&__client_imported__=true!",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/(main)/pacotes/page": "action-browser"
-      },
-      "filename": "app/actions.tours.ts",
-      "exportedName": "getRouteUrl"
-    },
     "00410ad3efc1922b064fa89ece775da1e5707c4a00": {
       "workers": {
-        "app/(main)/profile/page": {
-          "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.auth.ts%22%2C%5B%7B%22id%22%3A%2200410ad3efc1922b064fa89ece775da1e5707c4a00%22%2C%22exportedName%22%3A%22getUserSession%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2200455282ddfeef8cc1f2ff75207881ed4452a91d54%22%2C%22exportedName%22%3A%22logoutUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2240092e83fdaa4ffeab29283aa747dbb34b25039dbd%22%2C%22exportedName%22%3A%22loginUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224028452ae19ffd0c93bc49a52705f639edc0bc0d40%22%2C%22exportedName%22%3A%22getProfileStats%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403a039ff18c85e44ab692726e5519ba64d77a22a2%22%2C%22exportedName%22%3A%22getRecentActivities%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403da9d58f954eb91e3c0afa8edeeb8126cf9c0a25%22%2C%22exportedName%22%3A%22registerUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224058ad60e02af0bf65b11becdee7cc70c5df182f31%22%2C%22exportedName%22%3A%22getGuideProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2260491d0cc4d1f2b5b0b6d4f76156d36204a59a4661%22%2C%22exportedName%22%3A%22addXp%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22608d0c6a547e9e5b5b5e90ef08d2315b7c6bd61ca9%22%2C%22exportedName%22%3A%22updateUserProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%5D%5D%5D&__client_imported__=true!",
-          "async": false
-        },
         "app/login/page": {
           "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.auth.ts%22%2C%5B%7B%22id%22%3A%2200410ad3efc1922b064fa89ece775da1e5707c4a00%22%2C%22exportedName%22%3A%22getUserSession%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2200455282ddfeef8cc1f2ff75207881ed4452a91d54%22%2C%22exportedName%22%3A%22logoutUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2240092e83fdaa4ffeab29283aa747dbb34b25039dbd%22%2C%22exportedName%22%3A%22loginUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224028452ae19ffd0c93bc49a52705f639edc0bc0d40%22%2C%22exportedName%22%3A%22getProfileStats%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403a039ff18c85e44ab692726e5519ba64d77a22a2%22%2C%22exportedName%22%3A%22getRecentActivities%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403da9d58f954eb91e3c0afa8edeeb8126cf9c0a25%22%2C%22exportedName%22%3A%22registerUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224058ad60e02af0bf65b11becdee7cc70c5df182f31%22%2C%22exportedName%22%3A%22getGuideProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2260491d0cc4d1f2b5b0b6d4f76156d36204a59a4661%22%2C%22exportedName%22%3A%22addXp%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22608d0c6a547e9e5b5b5e90ef08d2315b7c6bd61ca9%22%2C%22exportedName%22%3A%22updateUserProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%5D%5D%5D&__client_imported__=true!",
           "async": false
         }
       },
       "layer": {
-        "app/(main)/profile/page": "action-browser",
         "app/login/page": "action-browser"
       },
       "filename": "app/actions.auth.ts",
@@ -137,17 +15,12 @@
     },
     "00455282ddfeef8cc1f2ff75207881ed4452a91d54": {
       "workers": {
-        "app/(main)/profile/page": {
-          "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.auth.ts%22%2C%5B%7B%22id%22%3A%2200410ad3efc1922b064fa89ece775da1e5707c4a00%22%2C%22exportedName%22%3A%22getUserSession%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2200455282ddfeef8cc1f2ff75207881ed4452a91d54%22%2C%22exportedName%22%3A%22logoutUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2240092e83fdaa4ffeab29283aa747dbb34b25039dbd%22%2C%22exportedName%22%3A%22loginUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224028452ae19ffd0c93bc49a52705f639edc0bc0d40%22%2C%22exportedName%22%3A%22getProfileStats%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403a039ff18c85e44ab692726e5519ba64d77a22a2%22%2C%22exportedName%22%3A%22getRecentActivities%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403da9d58f954eb91e3c0afa8edeeb8126cf9c0a25%22%2C%22exportedName%22%3A%22registerUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224058ad60e02af0bf65b11becdee7cc70c5df182f31%22%2C%22exportedName%22%3A%22getGuideProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2260491d0cc4d1f2b5b0b6d4f76156d36204a59a4661%22%2C%22exportedName%22%3A%22addXp%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22608d0c6a547e9e5b5b5e90ef08d2315b7c6bd61ca9%22%2C%22exportedName%22%3A%22updateUserProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%5D%5D%5D&__client_imported__=true!",
-          "async": false
-        },
         "app/login/page": {
           "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.auth.ts%22%2C%5B%7B%22id%22%3A%2200410ad3efc1922b064fa89ece775da1e5707c4a00%22%2C%22exportedName%22%3A%22getUserSession%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2200455282ddfeef8cc1f2ff75207881ed4452a91d54%22%2C%22exportedName%22%3A%22logoutUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2240092e83fdaa4ffeab29283aa747dbb34b25039dbd%22%2C%22exportedName%22%3A%22loginUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224028452ae19ffd0c93bc49a52705f639edc0bc0d40%22%2C%22exportedName%22%3A%22getProfileStats%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403a039ff18c85e44ab692726e5519ba64d77a22a2%22%2C%22exportedName%22%3A%22getRecentActivities%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403da9d58f954eb91e3c0afa8edeeb8126cf9c0a25%22%2C%22exportedName%22%3A%22registerUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224058ad60e02af0bf65b11becdee7cc70c5df182f31%22%2C%22exportedName%22%3A%22getGuideProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2260491d0cc4d1f2b5b0b6d4f76156d36204a59a4661%22%2C%22exportedName%22%3A%22addXp%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22608d0c6a547e9e5b5b5e90ef08d2315b7c6bd61ca9%22%2C%22exportedName%22%3A%22updateUserProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%5D%5D%5D&__client_imported__=true!",
           "async": false
         }
       },
       "layer": {
-        "app/(main)/profile/page": "action-browser",
         "app/login/page": "action-browser"
       },
       "filename": "app/actions.auth.ts",
@@ -155,17 +28,12 @@
     },
     "40092e83fdaa4ffeab29283aa747dbb34b25039dbd": {
       "workers": {
-        "app/(main)/profile/page": {
-          "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.auth.ts%22%2C%5B%7B%22id%22%3A%2200410ad3efc1922b064fa89ece775da1e5707c4a00%22%2C%22exportedName%22%3A%22getUserSession%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2200455282ddfeef8cc1f2ff75207881ed4452a91d54%22%2C%22exportedName%22%3A%22logoutUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2240092e83fdaa4ffeab29283aa747dbb34b25039dbd%22%2C%22exportedName%22%3A%22loginUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224028452ae19ffd0c93bc49a52705f639edc0bc0d40%22%2C%22exportedName%22%3A%22getProfileStats%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403a039ff18c85e44ab692726e5519ba64d77a22a2%22%2C%22exportedName%22%3A%22getRecentActivities%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403da9d58f954eb91e3c0afa8edeeb8126cf9c0a25%22%2C%22exportedName%22%3A%22registerUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224058ad60e02af0bf65b11becdee7cc70c5df182f31%22%2C%22exportedName%22%3A%22getGuideProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2260491d0cc4d1f2b5b0b6d4f76156d36204a59a4661%22%2C%22exportedName%22%3A%22addXp%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22608d0c6a547e9e5b5b5e90ef08d2315b7c6bd61ca9%22%2C%22exportedName%22%3A%22updateUserProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%5D%5D%5D&__client_imported__=true!",
-          "async": false
-        },
         "app/login/page": {
           "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.auth.ts%22%2C%5B%7B%22id%22%3A%2200410ad3efc1922b064fa89ece775da1e5707c4a00%22%2C%22exportedName%22%3A%22getUserSession%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2200455282ddfeef8cc1f2ff75207881ed4452a91d54%22%2C%22exportedName%22%3A%22logoutUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2240092e83fdaa4ffeab29283aa747dbb34b25039dbd%22%2C%22exportedName%22%3A%22loginUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224028452ae19ffd0c93bc49a52705f639edc0bc0d40%22%2C%22exportedName%22%3A%22getProfileStats%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403a039ff18c85e44ab692726e5519ba64d77a22a2%22%2C%22exportedName%22%3A%22getRecentActivities%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403da9d58f954eb91e3c0afa8edeeb8126cf9c0a25%22%2C%22exportedName%22%3A%22registerUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224058ad60e02af0bf65b11becdee7cc70c5df182f31%22%2C%22exportedName%22%3A%22getGuideProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2260491d0cc4d1f2b5b0b6d4f76156d36204a59a4661%22%2C%22exportedName%22%3A%22addXp%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22608d0c6a547e9e5b5b5e90ef08d2315b7c6bd61ca9%22%2C%22exportedName%22%3A%22updateUserProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%5D%5D%5D&__client_imported__=true!",
           "async": false
         }
       },
       "layer": {
-        "app/(main)/profile/page": "action-browser",
         "app/login/page": "action-browser"
       },
       "filename": "app/actions.auth.ts",
@@ -173,17 +41,12 @@
     },
     "4028452ae19ffd0c93bc49a52705f639edc0bc0d40": {
       "workers": {
-        "app/(main)/profile/page": {
-          "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.auth.ts%22%2C%5B%7B%22id%22%3A%2200410ad3efc1922b064fa89ece775da1e5707c4a00%22%2C%22exportedName%22%3A%22getUserSession%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2200455282ddfeef8cc1f2ff75207881ed4452a91d54%22%2C%22exportedName%22%3A%22logoutUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2240092e83fdaa4ffeab29283aa747dbb34b25039dbd%22%2C%22exportedName%22%3A%22loginUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224028452ae19ffd0c93bc49a52705f639edc0bc0d40%22%2C%22exportedName%22%3A%22getProfileStats%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403a039ff18c85e44ab692726e5519ba64d77a22a2%22%2C%22exportedName%22%3A%22getRecentActivities%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403da9d58f954eb91e3c0afa8edeeb8126cf9c0a25%22%2C%22exportedName%22%3A%22registerUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224058ad60e02af0bf65b11becdee7cc70c5df182f31%22%2C%22exportedName%22%3A%22getGuideProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2260491d0cc4d1f2b5b0b6d4f76156d36204a59a4661%22%2C%22exportedName%22%3A%22addXp%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22608d0c6a547e9e5b5b5e90ef08d2315b7c6bd61ca9%22%2C%22exportedName%22%3A%22updateUserProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%5D%5D%5D&__client_imported__=true!",
-          "async": false
-        },
         "app/login/page": {
           "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.auth.ts%22%2C%5B%7B%22id%22%3A%2200410ad3efc1922b064fa89ece775da1e5707c4a00%22%2C%22exportedName%22%3A%22getUserSession%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2200455282ddfeef8cc1f2ff75207881ed4452a91d54%22%2C%22exportedName%22%3A%22logoutUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2240092e83fdaa4ffeab29283aa747dbb34b25039dbd%22%2C%22exportedName%22%3A%22loginUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224028452ae19ffd0c93bc49a52705f639edc0bc0d40%22%2C%22exportedName%22%3A%22getProfileStats%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403a039ff18c85e44ab692726e5519ba64d77a22a2%22%2C%22exportedName%22%3A%22getRecentActivities%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403da9d58f954eb91e3c0afa8edeeb8126cf9c0a25%22%2C%22exportedName%22%3A%22registerUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224058ad60e02af0bf65b11becdee7cc70c5df182f31%22%2C%22exportedName%22%3A%22getGuideProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2260491d0cc4d1f2b5b0b6d4f76156d36204a59a4661%22%2C%22exportedName%22%3A%22addXp%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22608d0c6a547e9e5b5b5e90ef08d2315b7c6bd61ca9%22%2C%22exportedName%22%3A%22updateUserProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%5D%5D%5D&__client_imported__=true!",
           "async": false
         }
       },
       "layer": {
-        "app/(main)/profile/page": "action-browser",
         "app/login/page": "action-browser"
       },
       "filename": "app/actions.auth.ts",
@@ -191,17 +54,12 @@
     },
     "403a039ff18c85e44ab692726e5519ba64d77a22a2": {
       "workers": {
-        "app/(main)/profile/page": {
-          "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.auth.ts%22%2C%5B%7B%22id%22%3A%2200410ad3efc1922b064fa89ece775da1e5707c4a00%22%2C%22exportedName%22%3A%22getUserSession%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2200455282ddfeef8cc1f2ff75207881ed4452a91d54%22%2C%22exportedName%22%3A%22logoutUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2240092e83fdaa4ffeab29283aa747dbb34b25039dbd%22%2C%22exportedName%22%3A%22loginUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224028452ae19ffd0c93bc49a52705f639edc0bc0d40%22%2C%22exportedName%22%3A%22getProfileStats%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403a039ff18c85e44ab692726e5519ba64d77a22a2%22%2C%22exportedName%22%3A%22getRecentActivities%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403da9d58f954eb91e3c0afa8edeeb8126cf9c0a25%22%2C%22exportedName%22%3A%22registerUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224058ad60e02af0bf65b11becdee7cc70c5df182f31%22%2C%22exportedName%22%3A%22getGuideProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2260491d0cc4d1f2b5b0b6d4f76156d36204a59a4661%22%2C%22exportedName%22%3A%22addXp%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22608d0c6a547e9e5b5b5e90ef08d2315b7c6bd61ca9%22%2C%22exportedName%22%3A%22updateUserProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%5D%5D%5D&__client_imported__=true!",
-          "async": false
-        },
         "app/login/page": {
           "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.auth.ts%22%2C%5B%7B%22id%22%3A%2200410ad3efc1922b064fa89ece775da1e5707c4a00%22%2C%22exportedName%22%3A%22getUserSession%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2200455282ddfeef8cc1f2ff75207881ed4452a91d54%22%2C%22exportedName%22%3A%22logoutUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2240092e83fdaa4ffeab29283aa747dbb34b25039dbd%22%2C%22exportedName%22%3A%22loginUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224028452ae19ffd0c93bc49a52705f639edc0bc0d40%22%2C%22exportedName%22%3A%22getProfileStats%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403a039ff18c85e44ab692726e5519ba64d77a22a2%22%2C%22exportedName%22%3A%22getRecentActivities%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403da9d58f954eb91e3c0afa8edeeb8126cf9c0a25%22%2C%22exportedName%22%3A%22registerUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224058ad60e02af0bf65b11becdee7cc70c5df182f31%22%2C%22exportedName%22%3A%22getGuideProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2260491d0cc4d1f2b5b0b6d4f76156d36204a59a4661%22%2C%22exportedName%22%3A%22addXp%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22608d0c6a547e9e5b5b5e90ef08d2315b7c6bd61ca9%22%2C%22exportedName%22%3A%22updateUserProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%5D%5D%5D&__client_imported__=true!",
           "async": false
         }
       },
       "layer": {
-        "app/(main)/profile/page": "action-browser",
         "app/login/page": "action-browser"
       },
       "filename": "app/actions.auth.ts",
@@ -209,17 +67,12 @@
     },
     "403da9d58f954eb91e3c0afa8edeeb8126cf9c0a25": {
       "workers": {
-        "app/(main)/profile/page": {
-          "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.auth.ts%22%2C%5B%7B%22id%22%3A%2200410ad3efc1922b064fa89ece775da1e5707c4a00%22%2C%22exportedName%22%3A%22getUserSession%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2200455282ddfeef8cc1f2ff75207881ed4452a91d54%22%2C%22exportedName%22%3A%22logoutUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2240092e83fdaa4ffeab29283aa747dbb34b25039dbd%22%2C%22exportedName%22%3A%22loginUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224028452ae19ffd0c93bc49a52705f639edc0bc0d40%22%2C%22exportedName%22%3A%22getProfileStats%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403a039ff18c85e44ab692726e5519ba64d77a22a2%22%2C%22exportedName%22%3A%22getRecentActivities%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403da9d58f954eb91e3c0afa8edeeb8126cf9c0a25%22%2C%22exportedName%22%3A%22registerUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224058ad60e02af0bf65b11becdee7cc70c5df182f31%22%2C%22exportedName%22%3A%22getGuideProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2260491d0cc4d1f2b5b0b6d4f76156d36204a59a4661%22%2C%22exportedName%22%3A%22addXp%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22608d0c6a547e9e5b5b5e90ef08d2315b7c6bd61ca9%22%2C%22exportedName%22%3A%22updateUserProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%5D%5D%5D&__client_imported__=true!",
-          "async": false
-        },
         "app/login/page": {
           "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.auth.ts%22%2C%5B%7B%22id%22%3A%2200410ad3efc1922b064fa89ece775da1e5707c4a00%22%2C%22exportedName%22%3A%22getUserSession%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2200455282ddfeef8cc1f2ff75207881ed4452a91d54%22%2C%22exportedName%22%3A%22logoutUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2240092e83fdaa4ffeab29283aa747dbb34b25039dbd%22%2C%22exportedName%22%3A%22loginUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224028452ae19ffd0c93bc49a52705f639edc0bc0d40%22%2C%22exportedName%22%3A%22getProfileStats%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403a039ff18c85e44ab692726e5519ba64d77a22a2%22%2C%22exportedName%22%3A%22getRecentActivities%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403da9d58f954eb91e3c0afa8edeeb8126cf9c0a25%22%2C%22exportedName%22%3A%22registerUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224058ad60e02af0bf65b11becdee7cc70c5df182f31%22%2C%22exportedName%22%3A%22getGuideProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2260491d0cc4d1f2b5b0b6d4f76156d36204a59a4661%22%2C%22exportedName%22%3A%22addXp%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22608d0c6a547e9e5b5b5e90ef08d2315b7c6bd61ca9%22%2C%22exportedName%22%3A%22updateUserProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%5D%5D%5D&__client_imported__=true!",
           "async": false
         }
       },
       "layer": {
-        "app/(main)/profile/page": "action-browser",
         "app/login/page": "action-browser"
       },
       "filename": "app/actions.auth.ts",
@@ -227,17 +80,12 @@
     },
     "4058ad60e02af0bf65b11becdee7cc70c5df182f31": {
       "workers": {
-        "app/(main)/profile/page": {
-          "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.auth.ts%22%2C%5B%7B%22id%22%3A%2200410ad3efc1922b064fa89ece775da1e5707c4a00%22%2C%22exportedName%22%3A%22getUserSession%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2200455282ddfeef8cc1f2ff75207881ed4452a91d54%22%2C%22exportedName%22%3A%22logoutUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2240092e83fdaa4ffeab29283aa747dbb34b25039dbd%22%2C%22exportedName%22%3A%22loginUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224028452ae19ffd0c93bc49a52705f639edc0bc0d40%22%2C%22exportedName%22%3A%22getProfileStats%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403a039ff18c85e44ab692726e5519ba64d77a22a2%22%2C%22exportedName%22%3A%22getRecentActivities%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403da9d58f954eb91e3c0afa8edeeb8126cf9c0a25%22%2C%22exportedName%22%3A%22registerUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224058ad60e02af0bf65b11becdee7cc70c5df182f31%22%2C%22exportedName%22%3A%22getGuideProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2260491d0cc4d1f2b5b0b6d4f76156d36204a59a4661%22%2C%22exportedName%22%3A%22addXp%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22608d0c6a547e9e5b5b5e90ef08d2315b7c6bd61ca9%22%2C%22exportedName%22%3A%22updateUserProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%5D%5D%5D&__client_imported__=true!",
-          "async": false
-        },
         "app/login/page": {
           "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.auth.ts%22%2C%5B%7B%22id%22%3A%2200410ad3efc1922b064fa89ece775da1e5707c4a00%22%2C%22exportedName%22%3A%22getUserSession%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2200455282ddfeef8cc1f2ff75207881ed4452a91d54%22%2C%22exportedName%22%3A%22logoutUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2240092e83fdaa4ffeab29283aa747dbb34b25039dbd%22%2C%22exportedName%22%3A%22loginUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224028452ae19ffd0c93bc49a52705f639edc0bc0d40%22%2C%22exportedName%22%3A%22getProfileStats%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403a039ff18c85e44ab692726e5519ba64d77a22a2%22%2C%22exportedName%22%3A%22getRecentActivities%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403da9d58f954eb91e3c0afa8edeeb8126cf9c0a25%22%2C%22exportedName%22%3A%22registerUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224058ad60e02af0bf65b11becdee7cc70c5df182f31%22%2C%22exportedName%22%3A%22getGuideProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2260491d0cc4d1f2b5b0b6d4f76156d36204a59a4661%22%2C%22exportedName%22%3A%22addXp%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22608d0c6a547e9e5b5b5e90ef08d2315b7c6bd61ca9%22%2C%22exportedName%22%3A%22updateUserProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%5D%5D%5D&__client_imported__=true!",
           "async": false
         }
       },
       "layer": {
-        "app/(main)/profile/page": "action-browser",
         "app/login/page": "action-browser"
       },
       "filename": "app/actions.auth.ts",
@@ -245,17 +93,12 @@
     },
     "60491d0cc4d1f2b5b0b6d4f76156d36204a59a4661": {
       "workers": {
-        "app/(main)/profile/page": {
-          "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.auth.ts%22%2C%5B%7B%22id%22%3A%2200410ad3efc1922b064fa89ece775da1e5707c4a00%22%2C%22exportedName%22%3A%22getUserSession%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2200455282ddfeef8cc1f2ff75207881ed4452a91d54%22%2C%22exportedName%22%3A%22logoutUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2240092e83fdaa4ffeab29283aa747dbb34b25039dbd%22%2C%22exportedName%22%3A%22loginUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224028452ae19ffd0c93bc49a52705f639edc0bc0d40%22%2C%22exportedName%22%3A%22getProfileStats%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403a039ff18c85e44ab692726e5519ba64d77a22a2%22%2C%22exportedName%22%3A%22getRecentActivities%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403da9d58f954eb91e3c0afa8edeeb8126cf9c0a25%22%2C%22exportedName%22%3A%22registerUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224058ad60e02af0bf65b11becdee7cc70c5df182f31%22%2C%22exportedName%22%3A%22getGuideProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2260491d0cc4d1f2b5b0b6d4f76156d36204a59a4661%22%2C%22exportedName%22%3A%22addXp%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22608d0c6a547e9e5b5b5e90ef08d2315b7c6bd61ca9%22%2C%22exportedName%22%3A%22updateUserProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%5D%5D%5D&__client_imported__=true!",
-          "async": false
-        },
         "app/login/page": {
           "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.auth.ts%22%2C%5B%7B%22id%22%3A%2200410ad3efc1922b064fa89ece775da1e5707c4a00%22%2C%22exportedName%22%3A%22getUserSession%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2200455282ddfeef8cc1f2ff75207881ed4452a91d54%22%2C%22exportedName%22%3A%22logoutUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2240092e83fdaa4ffeab29283aa747dbb34b25039dbd%22%2C%22exportedName%22%3A%22loginUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224028452ae19ffd0c93bc49a52705f639edc0bc0d40%22%2C%22exportedName%22%3A%22getProfileStats%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403a039ff18c85e44ab692726e5519ba64d77a22a2%22%2C%22exportedName%22%3A%22getRecentActivities%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403da9d58f954eb91e3c0afa8edeeb8126cf9c0a25%22%2C%22exportedName%22%3A%22registerUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224058ad60e02af0bf65b11becdee7cc70c5df182f31%22%2C%22exportedName%22%3A%22getGuideProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2260491d0cc4d1f2b5b0b6d4f76156d36204a59a4661%22%2C%22exportedName%22%3A%22addXp%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22608d0c6a547e9e5b5b5e90ef08d2315b7c6bd61ca9%22%2C%22exportedName%22%3A%22updateUserProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%5D%5D%5D&__client_imported__=true!",
           "async": false
         }
       },
       "layer": {
-        "app/(main)/profile/page": "action-browser",
         "app/login/page": "action-browser"
       },
       "filename": "app/actions.auth.ts",
@@ -263,17 +106,12 @@
     },
     "608d0c6a547e9e5b5b5e90ef08d2315b7c6bd61ca9": {
       "workers": {
-        "app/(main)/profile/page": {
-          "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.auth.ts%22%2C%5B%7B%22id%22%3A%2200410ad3efc1922b064fa89ece775da1e5707c4a00%22%2C%22exportedName%22%3A%22getUserSession%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2200455282ddfeef8cc1f2ff75207881ed4452a91d54%22%2C%22exportedName%22%3A%22logoutUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2240092e83fdaa4ffeab29283aa747dbb34b25039dbd%22%2C%22exportedName%22%3A%22loginUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224028452ae19ffd0c93bc49a52705f639edc0bc0d40%22%2C%22exportedName%22%3A%22getProfileStats%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403a039ff18c85e44ab692726e5519ba64d77a22a2%22%2C%22exportedName%22%3A%22getRecentActivities%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403da9d58f954eb91e3c0afa8edeeb8126cf9c0a25%22%2C%22exportedName%22%3A%22registerUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224058ad60e02af0bf65b11becdee7cc70c5df182f31%22%2C%22exportedName%22%3A%22getGuideProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2260491d0cc4d1f2b5b0b6d4f76156d36204a59a4661%22%2C%22exportedName%22%3A%22addXp%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22608d0c6a547e9e5b5b5e90ef08d2315b7c6bd61ca9%22%2C%22exportedName%22%3A%22updateUserProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%5D%5D%5D&__client_imported__=true!",
-          "async": false
-        },
         "app/login/page": {
           "moduleId": "(action-browser)/../../node_modules/.pnpm/next@15.5.15_@babel+core@7.29.0_@opentelemetry+api@1.9.1_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fdata%2Fdata%2Fcom.termux%2Ffiles%2Fhome%2FUrb%2Fapps%2Fweb%2Fapp%2Factions.auth.ts%22%2C%5B%7B%22id%22%3A%2200410ad3efc1922b064fa89ece775da1e5707c4a00%22%2C%22exportedName%22%3A%22getUserSession%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2200455282ddfeef8cc1f2ff75207881ed4452a91d54%22%2C%22exportedName%22%3A%22logoutUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2240092e83fdaa4ffeab29283aa747dbb34b25039dbd%22%2C%22exportedName%22%3A%22loginUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224028452ae19ffd0c93bc49a52705f639edc0bc0d40%22%2C%22exportedName%22%3A%22getProfileStats%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403a039ff18c85e44ab692726e5519ba64d77a22a2%22%2C%22exportedName%22%3A%22getRecentActivities%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22403da9d58f954eb91e3c0afa8edeeb8126cf9c0a25%22%2C%22exportedName%22%3A%22registerUser%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%224058ad60e02af0bf65b11becdee7cc70c5df182f31%22%2C%22exportedName%22%3A%22getGuideProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%2260491d0cc4d1f2b5b0b6d4f76156d36204a59a4661%22%2C%22exportedName%22%3A%22addXp%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%2C%7B%22id%22%3A%22608d0c6a547e9e5b5b5e90ef08d2315b7c6bd61ca9%22%2C%22exportedName%22%3A%22updateUserProfile%22%2C%22filename%22%3A%22app%2Factions.auth.ts%22%7D%5D%5D%5D&__client_imported__=true!",
           "async": false
         }
       },
       "layer": {
-        "app/(main)/profile/page": "action-browser",
         "app/login/page": "action-browser"
       },
       "filename": "app/actions.auth.ts",

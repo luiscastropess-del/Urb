@@ -1,5 +1,5 @@
 'use server'
-import { db } from '@/lib/prisma';
+import { db } from '@urb/shared';
 
 export async function getUserNotifications(userId: string) {
   return await db.notification.findMany({
