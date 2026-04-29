@@ -14,6 +14,7 @@ export default function AdminCitiesPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [analyzing, setAnalyzing] = useState(false);
+  const [updatingImages, setUpdatingImages] = useState(false);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCity, setEditingCity] = useState<any>(null);
@@ -127,7 +128,7 @@ export default function AdminCitiesPage() {
     }));
   };
 
-  // NOVA FUNÇÃO: Analisar cidades
+  // Analisar cidades
   const handleAnalyzeCities = async () => {
     if (!confirm('Isso irá analisar todas as cidades, atualizar perfis incorretos e remover duplicatas. Continuar?')) return;
     setAnalyzing(true);
@@ -144,6 +145,26 @@ export default function AdminCitiesPage() {
       showToast('Erro de conexão');
     } finally {
       setAnalyzing(false);
+    }
+  };
+
+  // Atualizar imagens
+  const handleUpdateImages = async () => {
+    if (!confirm('Isso irá atualizar as imagens de TODAS as cidades usando Wikimedia, OSM e Geoapify. Continuar?')) return;
+    setUpdatingImages(true);
+    try {
+      const res = await fetch('/api/admin/update-city-images', { method: 'POST', body: JSON.stringify({}) });
+      const data = await res.json();
+      if (data.success) {
+        showToast(`✅ ${data.message}`);
+        loadCities(true);
+      } else {
+        showToast(`❌ ${data.error || 'Erro'}`);
+      }
+    } catch (e) {
+      showToast('Erro de conexão');
+    } finally {
+      setUpdatingImages(false);
     }
   };
 
@@ -188,6 +209,18 @@ export default function AdminCitiesPage() {
                 <>Analisando...</>
               ) : (
                 <><Sparkles size={16} /> Analisar Cidades</>
+              )}
+            </button>
+            {/* BOTÃO ATUALIZAR IMAGENS */}
+            <button 
+              onClick={handleUpdateImages}
+              disabled={updatingImages}
+              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition flex items-center justify-center gap-2 shadow-md disabled:opacity-50 whitespace-nowrap"
+            >
+              {updatingImages ? (
+                <>Atualizando...</>
+              ) : (
+                <><ImageIcon size={16} /> Atualizar Imagens</>
               )}
             </button>
             <button 
@@ -455,4 +488,4 @@ export default function AdminCitiesPage() {
       )}
     </div>
   );
-                             }
+}
