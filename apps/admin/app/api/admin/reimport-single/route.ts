@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getPlaceDetails, downloadAndUploadPhoto } from '@/lib/places-api';
 import { db } from '@urb/shared';
 
+export const dynamic = 'force-dynamic';
 export async function POST(req: Request) {
   try {
     const { id } = await req.json();
