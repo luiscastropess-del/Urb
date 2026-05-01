@@ -145,6 +145,7 @@ model User {
   tourReviews   TourReview[]
   developerKeys DeveloperApiKey[]
   notifications Notification[]
+  posts           Post[]
 }
 
 model DeveloperApiKey {
