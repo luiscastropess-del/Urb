@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { db } from '@urb/shared';
 import { getProviderKey } from '@/lib/keys';
 import Groq from 'groq-sdk';
+export const dynamic = 'force-dynamic';
 
 // ==================== GROQ ====================
 async function getGroqClient(): Promise<Groq | null> {
