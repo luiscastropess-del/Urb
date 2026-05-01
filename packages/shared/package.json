@@ -9,12 +9,12 @@
     "prisma:dbpush": "prisma db push --accept-data-loss"
   },
   "dependencies": {
-    "@prisma/client": "6.19.3",
     "@prisma/adapter-pg": "6.19.3",
+    "@prisma/client": "5.22.0",
     "pg": "^8"
   },
   "devDependencies": {
-    "prisma": "6.19.3",
+    "prisma": "5.22.0",
     "typescript": "^5"
   }
 }
